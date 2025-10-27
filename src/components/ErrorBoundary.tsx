@@ -1,5 +1,5 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react'
 import { Result, Button } from 'antd'
+import React, { Component, ErrorInfo, ReactNode } from 'react'
 
 interface Props {
   children: ReactNode

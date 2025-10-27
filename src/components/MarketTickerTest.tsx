@@ -1,5 +1,5 @@
-import React from 'react'
 import { Card, Typography, Space, Divider } from 'antd'
+import React from 'react'
 import MarketTicker from './MarketTicker'
 
 const { Title, Text } = Typography
@@ -10,9 +10,7 @@ const MarketTickerTest: React.FC = () => {
       <div className="container mx-auto p-6">
         <div className="text-center mb-8">
           <Title level={1}>底部滚动条测试</Title>
-          <Text className="text-lg">
-            测试市场数据和新闻信息的单行横向滚动效果
-          </Text>
+          <Text className="text-lg">测试市场数据和新闻信息的单行横向滚动效果</Text>
         </div>
 
         <Space direction="vertical" size="large" className="w-full">
@@ -59,7 +57,7 @@ const MarketTickerTest: React.FC = () => {
                   <li>优化了渐变遮罩效果</li>
                 </ul>
               </div>
-              
+
               <div>
                 <Title level={4}>🎨 设计改进：</Title>
                 <ul className="list-disc ml-6 space-y-2">

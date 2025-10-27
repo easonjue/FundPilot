@@ -3,15 +3,15 @@ import { create } from 'zustand'
 interface UIState {
   // Layout state
   sidebarCollapsed: boolean
-  
+
   // Loading states
   globalLoading: boolean
   loadingMessage: string
-  
+
   // Modal and drawer states
   modals: Record<string, boolean>
   drawers: Record<string, boolean>
-  
+
   // Notification state
   notifications: Array<{
     id: string
@@ -20,7 +20,7 @@ interface UIState {
     message: string
     duration?: number
   }>
-  
+
   // Actions
   setSidebarCollapsed: (collapsed: boolean) => void
   setGlobalLoading: (loading: boolean, message?: string) => void
@@ -41,47 +41,53 @@ export const useUIStore = create<UIState>((set, get) => ({
   modals: {},
   drawers: {},
   notifications: [],
-  
+
   // Actions
-  setSidebarCollapsed: (collapsed) => set({ sidebarCollapsed: collapsed }),
-  
-  setGlobalLoading: (loading, message = '') => set({ 
-    globalLoading: loading, 
-    loadingMessage: message 
-  }),
-  
-  openModal: (modalId) => set((state) => ({
-    modals: { ...state.modals, [modalId]: true }
-  })),
-  
-  closeModal: (modalId) => set((state) => ({
-    modals: { ...state.modals, [modalId]: false }
-  })),
-  
-  openDrawer: (drawerId) => set((state) => ({
-    drawers: { ...state.drawers, [drawerId]: true }
-  })),
-  
-  closeDrawer: (drawerId) => set((state) => ({
-    drawers: { ...state.drawers, [drawerId]: false }
-  })),
-  
-  addNotification: (notification) => {
+  setSidebarCollapsed: collapsed => set({ sidebarCollapsed: collapsed }),
+
+  setGlobalLoading: (loading, message = '') =>
+    set({
+      globalLoading: loading,
+      loadingMessage: message,
+    }),
+
+  openModal: modalId =>
+    set(state => ({
+      modals: { ...state.modals, [modalId]: true },
+    })),
+
+  closeModal: modalId =>
+    set(state => ({
+      modals: { ...state.modals, [modalId]: false },
+    })),
+
+  openDrawer: drawerId =>
+    set(state => ({
+      drawers: { ...state.drawers, [drawerId]: true },
+    })),
+
+  closeDrawer: drawerId =>
+    set(state => ({
+      drawers: { ...state.drawers, [drawerId]: false },
+    })),
+
+  addNotification: notification => {
     const id = Date.now().toString()
-    set((state) => ({
-      notifications: [...state.notifications, { ...notification, id }]
+    set(state => ({
+      notifications: [...state.notifications, { ...notification, id }],
     }))
-    
+
     // Auto remove notification after duration
     const duration = notification.duration || 4500
     setTimeout(() => {
       get().removeNotification(id)
     }, duration)
   },
-  
-  removeNotification: (id) => set((state) => ({
-    notifications: state.notifications.filter(n => n.id !== id)
-  })),
-  
-  clearNotifications: () => set({ notifications: [] })
+
+  removeNotification: id =>
+    set(state => ({
+      notifications: state.notifications.filter(n => n.id !== id),
+    })),
+
+  clearNotifications: () => set({ notifications: [] }),
 }))

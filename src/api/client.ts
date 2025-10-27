@@ -22,10 +22,10 @@ apiClient.interceptors.request.use(
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`
     }
-    
+
     // Add request timestamp
     config.metadata = { startTime: Date.now() }
-    
+
     console.log(`🚀 API Request: ${config.method?.toUpperCase()} ${config.url}`)
     return config
   },
@@ -39,13 +39,18 @@ apiClient.interceptors.request.use(
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => {
     const duration = Date.now() - (response.config.metadata?.startTime || 0)
-    console.log(`✅ API Response: ${response.config.method?.toUpperCase()} ${response.config.url} (${duration}ms)`)
+    console.log(
+      `✅ API Response: ${response.config.method?.toUpperCase()} ${response.config.url} (${duration}ms)`
+    )
     return response
   },
   async (error: AxiosError) => {
     const duration = Date.now() - (error.config?.metadata?.startTime || 0)
-    console.error(`❌ API Error: ${error.config?.method?.toUpperCase()} ${error.config?.url} (${duration}ms)`, error)
-    
+    console.error(
+      `❌ API Error: ${error.config?.method?.toUpperCase()} ${error.config?.url} (${duration}ms)`,
+      error
+    )
+
     // Handle different error types
     if (error.response) {
       // Server responded with error status
@@ -55,7 +60,7 @@ apiClient.interceptors.response.use(
         details: error.response.data,
         timestamp: new Date(),
       }
-      
+
       // Handle specific status codes
       switch (error.response.status) {
         case 401:
@@ -82,7 +87,7 @@ apiClient.interceptors.response.use(
         default:
           apiError.message = error.response.data?.message || '请求失败'
       }
-      
+
       return Promise.reject(apiError)
     } else if (error.request) {
       // Network error
@@ -113,13 +118,13 @@ const retryRequest = async (
   delay: number = 1000
 ): Promise<AxiosResponse> => {
   let lastError: any
-  
+
   for (let i = 0; i <= maxRetries; i++) {
     try {
       return await apiClient(config)
     } catch (error) {
       lastError = error
-      
+
       // Don't retry on client errors (4xx) except 429 (rate limit)
       if (axios.isAxiosError(error) && error.response) {
         const status = error.response.status
@@ -127,19 +132,19 @@ const retryRequest = async (
           throw error
         }
       }
-      
+
       // Don't retry on last attempt
       if (i === maxRetries) {
         throw error
       }
-      
+
       // Exponential backoff
       const waitTime = delay * Math.pow(2, i)
       console.log(`🔄 Retrying request in ${waitTime}ms (attempt ${i + 1}/${maxRetries})`)
       await new Promise(resolve => setTimeout(resolve, waitTime))
     }
   }
-  
+
   throw lastError
 }
 
@@ -147,16 +152,16 @@ const retryRequest = async (
 export const apiRequest = {
   get: <T = any>(url: string, config?: AxiosRequestConfig): Promise<T> =>
     retryRequest({ ...config, method: 'GET', url }).then(response => response.data),
-    
+
   post: <T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> =>
     retryRequest({ ...config, method: 'POST', url, data }).then(response => response.data),
-    
+
   put: <T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> =>
     retryRequest({ ...config, method: 'PUT', url, data }).then(response => response.data),
-    
+
   patch: <T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> =>
     retryRequest({ ...config, method: 'PATCH', url, data }).then(response => response.data),
-    
+
   delete: <T = any>(url: string, config?: AxiosRequestConfig): Promise<T> =>
     retryRequest({ ...config, method: 'DELETE', url }).then(response => response.data),
 }

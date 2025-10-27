@@ -13,7 +13,7 @@ import {
   pulse,
   addAnimationClass,
   prefersReducedMotion,
-  AnimationOptions
+  AnimationOptions,
 } from '@/utils/animations'
 
 export interface UseAnimationReturn {
@@ -44,7 +44,7 @@ export const useAnimation = (): UseAnimationReturn => {
     (animationFn: (element: HTMLElement, options?: AnimationOptions) => Animation) =>
       async (options?: AnimationOptions): Promise<void> => {
         if (!ref.current || isReducedMotion) return Promise.resolve()
-        
+
         const animation = animationFn(ref.current, options)
         await animation.finished
       },
@@ -62,13 +62,13 @@ export const useAnimation = (): UseAnimationReturn => {
     slideInRight: createAnimationMethod(slideInRight),
     elasticIn: createAnimationMethod(elasticIn),
     shake: createAnimationMethod(shake),
-    pulse: createAnimationMethod(pulse)
+    pulse: createAnimationMethod(pulse),
   }
 
   const addAnimationClassMethod = useCallback(
     async (className: string, duration?: number): Promise<void> => {
       if (!ref.current || isReducedMotion) return Promise.resolve()
-      
+
       await addAnimationClass(ref.current, className, duration)
     },
     [isReducedMotion]
@@ -78,7 +78,7 @@ export const useAnimation = (): UseAnimationReturn => {
     ref,
     ...animationMethods,
     addAnimationClass: addAnimationClassMethod,
-    isReducedMotion
+    isReducedMotion,
   }
 }
 
@@ -86,7 +86,14 @@ export const useAnimation = (): UseAnimationReturn => {
  * 进入动画Hook
  */
 export const useEnterAnimation = (
-  animationType: 'fadeIn' | 'fadeInUp' | 'fadeInDown' | 'scaleIn' | 'slideInLeft' | 'slideInRight' | 'elasticIn' = 'fadeInUp',
+  animationType:
+    | 'fadeIn'
+    | 'fadeInUp'
+    | 'fadeInDown'
+    | 'scaleIn'
+    | 'slideInLeft'
+    | 'slideInRight'
+    | 'elasticIn' = 'fadeInUp',
   options?: AnimationOptions & { delay?: number }
 ) => {
   const { ref, [animationType]: animate } = useAnimation()
@@ -97,7 +104,7 @@ export const useEnterAnimation = (
 
     // 初始隐藏元素
     element.style.opacity = '0'
-    
+
     const timer = setTimeout(() => {
       element.style.opacity = '1'
       animate(options)
@@ -127,7 +134,7 @@ export const useHoverAnimation = (
     if (!element) return
 
     element.addEventListener('mouseenter', handleMouseEnter)
-    
+
     return () => {
       element.removeEventListener('mouseenter', handleMouseEnter)
     }
@@ -153,8 +160,8 @@ export const useScrollAnimation = (
     element.style.opacity = '0'
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
+      entries => {
+        entries.forEach(entry => {
           if (entry.isIntersecting) {
             element.style.opacity = '1'
             animate(options)
@@ -164,7 +171,7 @@ export const useScrollAnimation = (
       },
       {
         threshold: options?.threshold || 0.1,
-        rootMargin: options?.rootMargin || '0px'
+        rootMargin: options?.rootMargin || '0px',
       }
     )
 
@@ -192,20 +199,20 @@ export const useStaggerAnimation = (
     if (!container) return
 
     const children = Array.from(container.children) as HTMLElement[]
-    
+
     children.forEach((child, index) => {
       child.style.opacity = '0'
-      
+
       setTimeout(() => {
         child.style.opacity = '1'
         child.classList.add(`animate-${animationType}`)
-        
+
         // 清理动画类
         const handleAnimationEnd = () => {
           child.classList.remove(`animate-${animationType}`)
           child.removeEventListener('animationend', handleAnimationEnd)
         }
-        
+
         child.addEventListener('animationend', handleAnimationEnd)
       }, index * staggerDelay)
     })
@@ -234,7 +241,7 @@ export const usePageTransition = () => {
   return {
     ref,
     fadeIn,
-    fadeOut
+    fadeOut,
   }
 }
 

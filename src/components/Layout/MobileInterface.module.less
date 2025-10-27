@@ -5,11 +5,11 @@
   flex-direction: column;
   overflow: hidden;
   transition: all 0.3s ease;
-  
+
   &.light {
     background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 50%, #fef3c7 100%);
   }
-  
+
   &.dark {
     background: linear-gradient(135deg, #0c0a09 0%, #1c1917 50%, #292524 100%);
   }
@@ -27,12 +27,12 @@
   position: relative;
   z-index: 100;
   transition: all 0.3s ease;
-  
+
   .light & {
     background: rgba(255, 255, 255, 0.9);
     border-bottom-color: rgba(0, 0, 0, 0.05);
   }
-  
+
   .dark & {
     background: rgba(0, 0, 0, 0.9);
     border-bottom-color: rgba(255, 255, 255, 0.05);
@@ -48,25 +48,25 @@
     display: block;
     font-size: 12px;
     margin-bottom: 2px;
-    
+
     .light & {
       color: #64748b !important;
     }
-    
+
     .dark & {
       color: #94a3b8 !important;
     }
   }
-  
+
   .userName {
     margin: 0 !important;
     font-weight: 600;
     font-size: 16px;
-    
+
     .light & {
       color: #1f2937 !important;
     }
-    
+
     .dark & {
       color: #f8fafc !important;
     }
@@ -84,19 +84,19 @@
   height: 36px;
   border-radius: 10px;
   transition: all 0.3s ease;
-  
+
   .light & {
     color: #64748b !important;
-    
+
     &:hover {
       background: rgba(59, 130, 246, 0.1) !important;
       color: #3b82f6 !important;
     }
   }
-  
+
   .dark & {
     color: #94a3b8 !important;
-    
+
     &:hover {
       background: rgba(59, 130, 246, 0.1) !important;
       color: #60a5fa !important;
@@ -113,11 +113,11 @@
   flex: 1;
   overflow-y: auto;
   padding-bottom: 80px; // 为底部导航留出空间
-  
+
   &::-webkit-scrollbar {
     display: none;
   }
-  
+
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
@@ -133,12 +133,12 @@
   border-top: 1px solid;
   z-index: 100;
   transition: all 0.3s ease;
-  
+
   .light & {
     background: rgba(255, 255, 255, 0.95);
     border-top-color: rgba(0, 0, 0, 0.05);
   }
-  
+
   .dark & {
     background: rgba(0, 0, 0, 0.95);
     border-top-color: rgba(255, 255, 255, 0.05);
@@ -164,37 +164,37 @@
   transition: all 0.3s ease;
   position: relative;
   min-width: 60px;
-  
+
   .light & {
     &:hover {
       background: rgba(59, 130, 246, 0.1);
     }
-    
+
     &.active {
       background: rgba(59, 130, 246, 0.1);
-      
+
       .navIcon {
         color: #3b82f6;
       }
-      
+
       .navLabel {
         color: #3b82f6;
       }
     }
   }
-  
+
   .dark & {
     &:hover {
       background: rgba(59, 130, 246, 0.1);
     }
-    
+
     &.active {
       background: rgba(59, 130, 246, 0.1);
-      
+
       .navIcon {
         color: #60a5fa;
       }
-      
+
       .navLabel {
         color: #60a5fa;
       }
@@ -206,11 +206,11 @@
   font-size: 20px;
   margin-bottom: 4px;
   transition: color 0.3s ease;
-  
+
   .light & {
     color: #64748b;
   }
-  
+
   .dark & {
     color: #94a3b8;
   }
@@ -220,11 +220,11 @@
   font-size: 11px;
   font-weight: 500;
   transition: color 0.3s ease;
-  
+
   .light & {
     color: #64748b;
   }
-  
+
   .dark & {
     color: #94a3b8;
   }

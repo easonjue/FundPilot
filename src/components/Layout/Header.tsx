@@ -1,16 +1,16 @@
-import React from 'react'
-import { Layout, Button, Space, Avatar, Dropdown, Badge } from 'antd'
-import { 
-  MenuUnfoldOutlined, 
-  MenuFoldOutlined, 
-  BellOutlined, 
+import {
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+  BellOutlined,
   UserOutlined,
   SettingOutlined,
   LogoutOutlined,
   SunOutlined,
-  MoonOutlined
+  MoonOutlined,
 } from '@ant-design/icons'
+import { Layout, Button, Space, Avatar, Dropdown, Badge } from 'antd'
 import type { MenuProps } from 'antd'
+import React from 'react'
 import { useThemeStore } from '@/stores/themeStore'
 
 const { Header: AntHeader } = Layout
@@ -63,20 +63,13 @@ const Header: React.FC<HeaderProps> = ({ collapsed, onToggle }) => {
           onClick={toggleTheme}
           className="text-lg"
         />
-        
+
         <Badge count={3} size="small">
-          <Button
-            type="text"
-            icon={<BellOutlined />}
-            className="text-lg"
-          />
+          <Button type="text" icon={<BellOutlined />} className="text-lg" />
         </Badge>
 
         <Dropdown menu={{ items: userMenuItems }} placement="bottomRight">
-          <Avatar 
-            icon={<UserOutlined />} 
-            className="cursor-pointer bg-primary-500"
-          />
+          <Avatar icon={<UserOutlined />} className="cursor-pointer bg-primary-500" />
         </Dropdown>
       </Space>
     </AntHeader>

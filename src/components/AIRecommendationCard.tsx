@@ -1,13 +1,9 @@
+import { ExpandAltOutlined, MinusOutlined } from '@ant-design/icons'
+import { Button, Progress, Tag, Typography } from 'antd'
 import React, { useState } from 'react'
-import { Card, Badge, Progress, Button, Collapse, Typography, Space, Tag } from 'antd'
-import { 
-  MinusOutlined,
-  ExpandAltOutlined
-} from '@ant-design/icons'
 import type { AIPrediction } from '@/types'
 
 const { Text, Paragraph } = Typography
-const { Panel } = Collapse
 
 interface AIRecommendationCardProps {
   prediction: AIPrediction
@@ -20,7 +16,7 @@ const AIRecommendationCard: React.FC<AIRecommendationCardProps> = ({
   prediction,
   fundName,
   className = '',
-  onActionClick
+  onActionClick,
 }) => {
   const [expanded, setExpanded] = useState(false)
 
@@ -33,7 +29,7 @@ const AIRecommendationCard: React.FC<AIRecommendationCardProps> = ({
           textColor: 'text-success-700 dark:text-success-300',
           icon: <MinusOutlined />,
           label: '买入',
-          description: '建议增加持仓'
+          description: '建议增加持仓',
         }
       case 'sell':
         return {
@@ -42,7 +38,7 @@ const AIRecommendationCard: React.FC<AIRecommendationCardProps> = ({
           textColor: 'text-danger-700 dark:text-danger-300',
           icon: <MinusOutlined />,
           label: '卖出',
-          description: '建议减少持仓'
+          description: '建议减少持仓',
         }
       default:
         return {
@@ -51,7 +47,7 @@ const AIRecommendationCard: React.FC<AIRecommendationCardProps> = ({
           textColor: 'text-gray-700 dark:text-gray-300',
           icon: <MinusOutlined />,
           label: '持有',
-          description: '建议维持现状'
+          description: '建议维持现状',
         }
     }
   }
@@ -77,27 +73,27 @@ const AIRecommendationCard: React.FC<AIRecommendationCardProps> = ({
   const confidencePercent = Math.round(prediction.confidence * 100)
 
   return (
-    <div className={`p-4 ${config.bgColor} rounded-xl border border-opacity-20 hover:shadow-md transition-all duration-200 ${className}`}>
+    <div
+      className={`p-4 ${config.bgColor} rounded-xl border border-opacity-20 hover:shadow-md transition-all duration-200 ${className}`}
+    >
       <div className="space-y-4">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-              prediction.suggestion === 'buy' 
-                ? 'bg-green-100 dark:bg-green-900/30'
-                : prediction.suggestion === 'sell'
-                ? 'bg-red-100 dark:bg-red-900/30'
-                : 'bg-gray-100 dark:bg-gray-800'
-            }`}>
+            <div
+              className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                prediction.suggestion === 'buy'
+                  ? 'bg-green-100 dark:bg-green-900/30'
+                  : prediction.suggestion === 'sell'
+                    ? 'bg-red-100 dark:bg-red-900/30'
+                    : 'bg-gray-100 dark:bg-gray-800'
+              }`}
+            >
               <span className={config.textColor}>{config.icon}</span>
             </div>
             <div>
-              <Text className={`font-semibold ${config.textColor} text-base`}>
-                {fundName}
-              </Text>
-              <div className="text-xs text-gray-500 dark:text-gray-400">
-                {prediction.fundCode}
-              </div>
+              <Text className={`font-semibold ${config.textColor} text-base`}>{fundName}</Text>
+              <div className="text-xs text-gray-500 dark:text-gray-400">{prediction.fundCode}</div>
             </div>
           </div>
           <Button
@@ -112,24 +108,22 @@ const AIRecommendationCard: React.FC<AIRecommendationCardProps> = ({
         {/* Main recommendation */}
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
-            <div className={`px-3 py-1 rounded-full text-sm font-medium ${
-              prediction.suggestion === 'buy' 
-                ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
-                : prediction.suggestion === 'sell'
-                ? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
-                : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400'
-            }`}>
+            <div
+              className={`px-3 py-1 rounded-full text-sm font-medium ${
+                prediction.suggestion === 'buy'
+                  ? 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400'
+                  : prediction.suggestion === 'sell'
+                    ? 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400'
+                    : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-400'
+              }`}
+            >
               {config.label}
             </div>
             {getDirectionTag()}
           </div>
           <div className="text-right">
-            <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">
-              置信度
-            </div>
-            <Text className={`text-lg font-bold ${config.textColor}`}>
-              {confidencePercent}%
-            </Text>
+            <div className="text-xs text-gray-500 dark:text-gray-400 mb-1">置信度</div>
+            <Text className={`text-lg font-bold ${config.textColor}`}>{confidencePercent}%</Text>
           </div>
         </div>
 
@@ -145,7 +139,9 @@ const AIRecommendationCard: React.FC<AIRecommendationCardProps> = ({
           />
           <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
             <span>风险评估</span>
-            <span>{confidencePercent >= 80 ? '低风险' : confidencePercent >= 60 ? '中风险' : '高风险'}</span>
+            <span>
+              {confidencePercent >= 80 ? '低风险' : confidencePercent >= 60 ? '中风险' : '高风险'}
+            </span>
           </div>
         </div>
 
@@ -153,28 +149,18 @@ const AIRecommendationCard: React.FC<AIRecommendationCardProps> = ({
         {expanded && (
           <div className="space-y-3 pt-2 border-t border-gray-200 dark:border-gray-600">
             <div className="flex items-center justify-between">
-              <Text className="text-sm text-gray-600 dark:text-gray-400">
-                预测方向：
-              </Text>
+              <Text className="text-sm text-gray-600 dark:text-gray-400">预测方向：</Text>
               {getDirectionTag()}
             </div>
-            
+
             <div>
-              <Text className="text-sm text-gray-600 dark:text-gray-400">
-                分析原因：
-              </Text>
-              <Paragraph className="text-sm mt-1 mb-0">
-                {prediction.reason}
-              </Paragraph>
+              <Text className="text-sm text-gray-600 dark:text-gray-400">分析原因：</Text>
+              <Paragraph className="text-sm mt-1 mb-0">{prediction.reason}</Paragraph>
             </div>
 
             <div className="flex items-center justify-between text-xs text-gray-500">
-              <span>
-                有效期至: {new Date(prediction.validUntil).toLocaleDateString('zh-CN')}
-              </span>
-              <span>
-                基金代码: {prediction.fundCode}
-              </span>
+              <span>有效期至: {new Date(prediction.validUntil).toLocaleDateString('zh-CN')}</span>
+              <span>基金代码: {prediction.fundCode}</span>
             </div>
 
             {onActionClick && (

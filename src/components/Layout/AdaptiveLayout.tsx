@@ -1,8 +1,8 @@
 import React from 'react'
-import { useDeviceDetection } from '@/hooks/useDeviceDetection'
 import DesktopCockpit from './DesktopCockpit'
-import TabletDashboard from './TabletDashboard'
 import MobileInterface from './MobileInterface'
+import TabletDashboard from './TabletDashboard'
+import { useDeviceDetection } from '@/hooks/useDeviceDetection'
 
 interface AdaptiveLayoutProps {
   children: React.ReactNode

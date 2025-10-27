@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from 'react'
-import { Typography, Avatar, Badge, Button, Tooltip } from 'antd'
 import {
   DashboardOutlined,
   LineChartOutlined,
@@ -12,15 +10,17 @@ import {
   SunOutlined,
   MoonOutlined,
   MenuUnfoldOutlined,
-  MenuFoldOutlined
+  MenuFoldOutlined,
 } from '@ant-design/icons'
-import { useNavigate, useLocation } from 'react-router-dom'
+import { Typography, Avatar, Badge, Button, Tooltip } from 'antd'
+import React, { useState, useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
-import { useThemeStore } from '@/stores/themeStore'
-import LanguageSwitcher from '@/components/LanguageSwitcher'
-import WorldClock from '@/components/WorldClock'
-import MarketTicker from '@/components/MarketTicker'
+import { useNavigate, useLocation } from 'react-router-dom'
 import styles from './DesktopCockpit.module.less'
+import LanguageSwitcher from '@/components/LanguageSwitcher'
+import MarketTicker from '@/components/MarketTicker'
+import WorldClock from '@/components/WorldClock'
+import { useThemeStore } from '@/stores/themeStore'
 
 const { Title, Text } = Typography
 
@@ -34,15 +34,35 @@ const DesktopCockpit: React.FC<DesktopCockpitProps> = ({ children }) => {
   const { t } = useTranslation()
   const { isDark, toggleTheme } = useThemeStore()
   const [isFullscreen, setIsFullscreen] = useState(false)
-  const [currentTime, setCurrentTime] = useState('')
+  const [_currentTime, setCurrentTime] = useState('')
   const [isNavCollapsed, setIsNavCollapsed] = useState(false)
 
   const navItems = [
-    { key: 'dashboard', icon: DashboardOutlined, label: t('navigation.dashboard'), path: '/dashboard' },
-    { key: 'analysis', icon: LineChartOutlined, label: t('navigation.analysis'), path: '/analysis' },
-    { key: 'strategy', icon: ThunderboltOutlined, label: t('navigation.strategy'), path: '/strategy' },
-    { key: 'notifications', icon: BellOutlined, label: t('navigation.notifications'), path: '/notifications' },
-    { key: 'settings', icon: SettingOutlined, label: t('navigation.settings'), path: '/settings' }
+    {
+      key: 'dashboard',
+      icon: DashboardOutlined,
+      label: t('navigation.dashboard'),
+      path: '/dashboard',
+    },
+    {
+      key: 'analysis',
+      icon: LineChartOutlined,
+      label: t('navigation.analysis'),
+      path: '/analysis',
+    },
+    {
+      key: 'strategy',
+      icon: ThunderboltOutlined,
+      label: t('navigation.strategy'),
+      path: '/strategy',
+    },
+    {
+      key: 'notifications',
+      icon: BellOutlined,
+      label: t('navigation.notifications'),
+      path: '/notifications',
+    },
+    { key: 'settings', icon: SettingOutlined, label: t('navigation.settings'), path: '/settings' },
   ]
 
   const toggleFullscreen = () => {
@@ -59,16 +79,16 @@ const DesktopCockpit: React.FC<DesktopCockpitProps> = ({ children }) => {
     return new Date().toLocaleTimeString('zh-CN', {
       hour: '2-digit',
       minute: '2-digit',
-      second: '2-digit'
+      second: '2-digit',
     })
   }
 
-  const getCurrentDate = () => {
+  const _getCurrentDate = () => {
     return new Date().toLocaleDateString('zh-CN', {
       year: 'numeric',
       month: 'long',
       day: 'numeric',
-      weekday: 'long'
+      weekday: 'long',
     })
   }
 
@@ -76,10 +96,10 @@ const DesktopCockpit: React.FC<DesktopCockpitProps> = ({ children }) => {
     const updateTime = () => {
       setCurrentTime(getCurrentTime())
     }
-    
+
     updateTime()
     const timer = setInterval(updateTime, 1000)
-    
+
     return () => clearInterval(timer)
   }, [])
 
@@ -90,7 +110,9 @@ const DesktopCockpit: React.FC<DesktopCockpitProps> = ({ children }) => {
         <div className={styles.leftStatus}>
           <div className={styles.logo}>
             <div className={styles.logoIcon}>⚡</div>
-            <Title level={4} className={styles.logoText}>FundPilot</Title>
+            <Title level={4} className={styles.logoText}>
+              FundPilot
+            </Title>
           </div>
           <div className={styles.systemStatus}>
             <div className={styles.statusIndicator}>
@@ -111,11 +133,7 @@ const DesktopCockpit: React.FC<DesktopCockpitProps> = ({ children }) => {
         <div className={styles.rightStatus}>
           <div className={styles.controlButtons}>
             <Tooltip title={t('common.search')}>
-              <Button
-                type="text"
-                icon={<SearchOutlined />}
-                className={styles.controlButton}
-              />
+              <Button type="text" icon={<SearchOutlined />} className={styles.controlButton} />
             </Tooltip>
             <LanguageSwitcher type="text" size="middle" />
             <Tooltip title={isDark ? t('theme.switchToLight') : t('theme.switchToDark')}>
@@ -135,19 +153,11 @@ const DesktopCockpit: React.FC<DesktopCockpitProps> = ({ children }) => {
               />
             </Tooltip>
             <Badge count={5} size="small">
-              <Button
-                type="text"
-                icon={<BellOutlined />}
-                className={styles.controlButton}
-              />
+              <Button type="text" icon={<BellOutlined />} className={styles.controlButton} />
             </Badge>
           </div>
           <div className={styles.userProfile}>
-            <Avatar
-              size={40}
-              icon={<UserOutlined />}
-              className={styles.avatar}
-            />
+            <Avatar size={40} icon={<UserOutlined />} className={styles.avatar} />
             <div className={styles.userInfo}>
               <Text className={styles.userName}>{t('greeting.investor')}</Text>
               <Text className={styles.userRole}>{t('greeting.professionalVersion')}</Text>
@@ -159,7 +169,9 @@ const DesktopCockpit: React.FC<DesktopCockpitProps> = ({ children }) => {
       {/* 主要内容区域 */}
       <div className={styles.mainArea}>
         {/* 左侧导航面板 - 垂直仪表盘风格 */}
-        <div className={`${styles.navigationPanel} ${isNavCollapsed ? styles.collapsed : styles.expanded}`}>
+        <div
+          className={`${styles.navigationPanel} ${isNavCollapsed ? styles.collapsed : styles.expanded}`}
+        >
           {/* 收起/展开按钮 */}
           <div className={styles.navHeader}>
             <Tooltip title={isNavCollapsed ? '展开导航' : '收起导航'} placement="right">
@@ -178,13 +190,13 @@ const DesktopCockpit: React.FC<DesktopCockpitProps> = ({ children }) => {
           </div>
 
           <div className={styles.navItems}>
-            {navItems.map((item) => {
+            {navItems.map(item => {
               const isActive = location.pathname === item.path
               const IconComponent = item.icon
               return (
-                <Tooltip 
-                  key={item.key} 
-                  title={isNavCollapsed ? item.label : ''} 
+                <Tooltip
+                  key={item.key}
+                  title={isNavCollapsed ? item.label : ''}
                   placement="right"
                   mouseEnterDelay={0.5}
                 >
@@ -195,16 +207,14 @@ const DesktopCockpit: React.FC<DesktopCockpitProps> = ({ children }) => {
                     <div className={styles.navIcon}>
                       <IconComponent />
                     </div>
-                    {!isNavCollapsed && (
-                      <div className={styles.navLabel}>{item.label}</div>
-                    )}
+                    {!isNavCollapsed && <div className={styles.navLabel}>{item.label}</div>}
                     {isActive && <div className={styles.activeIndicator}></div>}
                   </div>
                 </Tooltip>
               )
             })}
           </div>
-          
+
           {/* 系统监控小部件 - 只在展开时显示 */}
           {!isNavCollapsed && (
             <div className={styles.systemMonitor}>
@@ -236,9 +246,7 @@ const DesktopCockpit: React.FC<DesktopCockpitProps> = ({ children }) => {
 
         {/* 内容区域 */}
         <div className={styles.contentArea}>
-          <div className={styles.contentWrapper}>
-            {children}
-          </div>
+          <div className={styles.contentWrapper}>{children}</div>
         </div>
 
         {/* 右侧信息面板 */}
@@ -246,30 +254,42 @@ const DesktopCockpit: React.FC<DesktopCockpitProps> = ({ children }) => {
           <div className={styles.infoPanelTitle}>
             <Text className={styles.infoPanelTitleText}>{t('navigation.realTimeMonitoring')}</Text>
           </div>
-          
+
           {/* 市场状态 */}
           <div className={styles.marketStatus}>
             <div className={styles.marketTitle}>{t('layout.marketStatus')}</div>
             <div className={styles.marketItem}>
               <div className={styles.marketDot} style={{ backgroundColor: '#10b981' }}></div>
-              <Text>{t('market.shanghaiShenzhen300')} {t('market.open')}</Text>
+              <Text>
+                {t('market.shanghaiShenzhen300')} {t('market.open')}
+              </Text>
             </div>
             <div className={styles.marketItem}>
               <div className={styles.marketDot} style={{ backgroundColor: '#f59e0b' }}></div>
-              <Text>{t('market.hongKongStock')} {t('market.suspended')}</Text>
+              <Text>
+                {t('market.hongKongStock')} {t('market.suspended')}
+              </Text>
             </div>
             <div className={styles.marketItem}>
               <div className={styles.marketDot} style={{ backgroundColor: '#ef4444' }}></div>
-              <Text>{t('market.usStock')} {t('market.closed')}</Text>
+              <Text>
+                {t('market.usStock')} {t('market.closed')}
+              </Text>
             </div>
           </div>
 
           {/* 快速操作 */}
           <div className={styles.quickActions}>
             <div className={styles.quickTitle}>{t('layout.quickActions')}</div>
-            <Button className={styles.quickButton} block>{t('layout.refreshData')}</Button>
-            <Button className={styles.quickButton} block>{t('layout.exportReport')}</Button>
-            <Button className={styles.quickButton} block>{t('layout.riskAssessment')}</Button>
+            <Button className={styles.quickButton} block>
+              {t('layout.refreshData')}
+            </Button>
+            <Button className={styles.quickButton} block>
+              {t('layout.exportReport')}
+            </Button>
+            <Button className={styles.quickButton} block>
+              {t('layout.riskAssessment')}
+            </Button>
           </div>
 
           {/* AI助手 */}
@@ -283,7 +303,9 @@ const DesktopCockpit: React.FC<DesktopCockpitProps> = ({ children }) => {
                 {t('ai.riskWarning')}，{t('ai.suggestedActions')}。
               </Text>
             </div>
-            <Button size="small" className={styles.aiButton}>{t('layout.viewSuggestions')}</Button>
+            <Button size="small" className={styles.aiButton}>
+              {t('layout.viewSuggestions')}
+            </Button>
           </div>
         </div>
       </div>

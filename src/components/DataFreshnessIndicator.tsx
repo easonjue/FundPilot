@@ -1,11 +1,11 @@
-import React from 'react'
-import { Space, Typography, Badge, Tooltip } from 'antd'
-import { 
-  ClockCircleOutlined, 
-  CheckCircleOutlined, 
+import {
+  ClockCircleOutlined,
+  CheckCircleOutlined,
   ExclamationCircleOutlined,
-  DisconnectOutlined 
+  DisconnectOutlined,
 } from '@ant-design/icons'
+import { Space, Typography, Badge, Tooltip } from 'antd'
+import React from 'react'
 
 const { Text } = Typography
 
@@ -24,7 +24,7 @@ const DataFreshnessIndicator: React.FC<DataFreshnessIndicatorProps> = ({
   isUpdating = false,
   isMarketHours = true,
   maxStaleTime = 10, // 10 minutes default
-  className = ''
+  className = '',
 }) => {
   const now = new Date()
   const timeSinceUpdate = Math.floor((now.getTime() - lastUpdate.getTime()) / 1000 / 60) // minutes
@@ -37,7 +37,7 @@ const DataFreshnessIndicator: React.FC<DataFreshnessIndicatorProps> = ({
         icon: <ClockCircleOutlined spin />,
         color: 'blue',
         text: '更新中...',
-        description: '正在获取最新数据'
+        description: '正在获取最新数据',
       }
     }
 
@@ -47,7 +47,7 @@ const DataFreshnessIndicator: React.FC<DataFreshnessIndicatorProps> = ({
         icon: <DisconnectOutlined />,
         color: 'gray',
         text: '休市中',
-        description: '当前为非交易时间，数据暂停更新'
+        description: '当前为非交易时间，数据暂停更新',
       }
     }
 
@@ -57,7 +57,7 @@ const DataFreshnessIndicator: React.FC<DataFreshnessIndicatorProps> = ({
         icon: <ExclamationCircleOutlined />,
         color: 'red',
         text: '数据过期',
-        description: `数据已过期 ${timeSinceUpdate} 分钟，请检查网络连接`
+        description: `数据已过期 ${timeSinceUpdate} 分钟，请检查网络连接`,
       }
     }
 
@@ -66,7 +66,7 @@ const DataFreshnessIndicator: React.FC<DataFreshnessIndicatorProps> = ({
       icon: <CheckCircleOutlined />,
       color: 'green',
       text: '数据正常',
-      description: `数据更新于 ${timeSinceUpdate} 分钟前`
+      description: `数据更新于 ${timeSinceUpdate} 分钟前`,
     }
   }
 
@@ -74,7 +74,7 @@ const DataFreshnessIndicator: React.FC<DataFreshnessIndicatorProps> = ({
     return date.toLocaleTimeString('zh-CN', {
       hour: '2-digit',
       minute: '2-digit',
-      second: '2-digit'
+      second: '2-digit',
     })
   }
 
@@ -92,15 +92,11 @@ const DataFreshnessIndicator: React.FC<DataFreshnessIndicatorProps> = ({
     <div>
       <div>{config.description}</div>
       <div className="mt-1">
-        <Text className="text-xs">
-          上次更新: {formatTime(lastUpdate)}
-        </Text>
+        <Text className="text-xs">上次更新: {formatTime(lastUpdate)}</Text>
       </div>
       {nextUpdate && (
         <div>
-          <Text className="text-xs">
-            下次更新: {formatTime(nextUpdate)}
-          </Text>
+          <Text className="text-xs">下次更新: {formatTime(nextUpdate)}</Text>
         </div>
       )}
     </div>
@@ -110,17 +106,8 @@ const DataFreshnessIndicator: React.FC<DataFreshnessIndicatorProps> = ({
     <div className={className}>
       <Tooltip title={tooltipContent}>
         <Space size="small">
-          <Badge 
-            status={config.status} 
-            text={
-              <Text className="text-sm">
-                {config.text}
-              </Text>
-            }
-          />
-          <Text className="text-xs text-gray-400">
-            {formatRelativeTime(timeSinceUpdate)}
-          </Text>
+          <Badge status={config.status} text={<Text className="text-sm">{config.text}</Text>} />
+          <Text className="text-xs text-gray-400">{formatRelativeTime(timeSinceUpdate)}</Text>
         </Space>
       </Tooltip>
     </div>

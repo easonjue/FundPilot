@@ -1,6 +1,6 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react'
-import { Card, Button, Alert } from 'antd'
 import { ReloadOutlined, BugOutlined } from '@ant-design/icons'
+import { Card, Button, Alert } from 'antd'
+import React, { Component, ErrorInfo, ReactNode } from 'react'
 
 interface Props {
   children: ReactNode
@@ -33,7 +33,11 @@ class ModuleErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    console.error(`ModuleErrorBoundary (${this.props.moduleName}) caught an error:`, error, errorInfo)
+    console.error(
+      `ModuleErrorBoundary (${this.props.moduleName}) caught an error:`,
+      error,
+      errorInfo
+    )
     this.setState({
       error,
       errorInfo,
@@ -75,7 +79,7 @@ class ModuleErrorBoundary extends Component<Props, State> {
               </Button>
             }
           />
-          
+
           {process.env.NODE_ENV === 'development' && this.state.error && (
             <div className="mt-4 p-4 bg-gray-100 dark:bg-gray-800 rounded">
               <details>

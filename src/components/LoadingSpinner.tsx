@@ -1,6 +1,6 @@
-import React from 'react'
-import { Spin, Typography } from 'antd'
 import { LoadingOutlined } from '@ant-design/icons'
+import { Spin, Typography } from 'antd'
+import React from 'react'
 
 const { Text } = Typography
 
@@ -17,9 +17,14 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   message,
   spinning = true,
   children,
-  className = ''
+  className = '',
 }) => {
-  const antIcon = <LoadingOutlined style={{ fontSize: size === 'large' ? 24 : size === 'small' ? 14 : 18 }} spin />
+  const antIcon = (
+    <LoadingOutlined
+      style={{ fontSize: size === 'large' ? 24 : size === 'small' ? 14 : 18 }}
+      spin
+    />
+  )
 
   if (children) {
     return (
@@ -32,11 +37,7 @@ const LoadingSpinner: React.FC<LoadingSpinnerProps> = ({
   return (
     <div className={`flex flex-col items-center justify-center p-8 ${className}`}>
       <Spin size={size} indicator={antIcon} />
-      {message && (
-        <Text className="mt-4 text-gray-500 dark:text-gray-400">
-          {message}
-        </Text>
-      )}
+      {message && <Text className="mt-4 text-gray-500 dark:text-gray-400">{message}</Text>}
     </div>
   )
 }

@@ -1,7 +1,7 @@
-import React from 'react'
 import { Row, Col, Skeleton } from 'antd'
-import MarketIndexCard from './MarketIndexCard'
+import React from 'react'
 import ErrorDisplay from './ErrorDisplay'
+import MarketIndexCard from './MarketIndexCard'
 import type { MarketIndex } from '@/types'
 
 interface MarketOverviewProps {
@@ -17,16 +17,10 @@ const MarketOverview: React.FC<MarketOverviewProps> = ({
   loading = false,
   error,
   onIndexClick,
-  onRetry
+  onRetry,
 }) => {
   if (error) {
-    return (
-      <ErrorDisplay 
-        error={error} 
-        onRetry={onRetry}
-        size="small"
-      />
-    )
+    return <ErrorDisplay error={error} onRetry={onRetry} size="small" />
   }
 
   if (loading) {
@@ -34,11 +28,7 @@ const MarketOverview: React.FC<MarketOverviewProps> = ({
       <Row gutter={[16, 16]}>
         {[1, 2, 3, 4].map(key => (
           <Col xs={24} sm={12} lg={6} key={key}>
-            <Skeleton.Button 
-              active 
-              style={{ width: '100%', height: '120px' }} 
-              shape="round"
-            />
+            <Skeleton.Button active style={{ width: '100%', height: '120px' }} shape="round" />
           </Col>
         ))}
       </Row>
@@ -47,12 +37,9 @@ const MarketOverview: React.FC<MarketOverviewProps> = ({
 
   return (
     <Row gutter={[24, 24]}>
-      {indices.map((index) => (
+      {indices.map(index => (
         <Col xs={24} sm={12} lg={6} key={index.code}>
-          <MarketIndexCard
-            index={index}
-            onClick={() => onIndexClick?.(index)}
-          />
+          <MarketIndexCard index={index} onClick={() => onIndexClick?.(index)} />
         </Col>
       ))}
     </Row>

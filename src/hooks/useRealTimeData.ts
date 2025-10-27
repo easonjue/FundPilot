@@ -16,7 +16,7 @@ interface MarketHours {
 const DEFAULT_MARKET_HOURS: MarketHours = {
   start: 9, // 9 AM
   end: 15, // 3 PM
-  days: [1, 2, 3, 4, 5] // Monday to Friday
+  days: [1, 2, 3, 4, 5], // Monday to Friday
 }
 
 export function useRealTimeData(options: UseRealTimeDataOptions = {}) {
@@ -24,7 +24,7 @@ export function useRealTimeData(options: UseRealTimeDataOptions = {}) {
     interval = 5 * 60 * 1000, // 5 minutes default
     enabled = true,
     onUpdate,
-    marketHoursOnly = true
+    marketHoursOnly = true,
   } = options
 
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date())
@@ -36,11 +36,11 @@ export function useRealTimeData(options: UseRealTimeDataOptions = {}) {
   // Check if current time is within market hours
   const isMarketHours = useCallback(() => {
     if (!marketHoursOnly) return true
-    
+
     const now = new Date()
     const currentHour = now.getHours()
     const currentDay = now.getDay()
-    
+
     return (
       DEFAULT_MARKET_HOURS.days.includes(currentDay) &&
       currentHour >= DEFAULT_MARKET_HOURS.start &&
@@ -59,7 +59,7 @@ export function useRealTimeData(options: UseRealTimeDataOptions = {}) {
   const refresh = useCallback(async () => {
     setIsUpdating(true)
     setLastUpdate(new Date())
-    
+
     try {
       await onUpdate?.()
     } catch (error) {
@@ -138,7 +138,7 @@ export function useRealTimeData(options: UseRealTimeDataOptions = {}) {
     isMarketHours: isMarketHours(),
     refresh,
     startAutoRefresh,
-    stopAutoRefresh
+    stopAutoRefresh,
   }
 }
 

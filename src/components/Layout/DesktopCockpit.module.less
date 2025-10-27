@@ -6,11 +6,18 @@
   overflow: hidden;
   position: relative;
   transition: all 0.3s ease;
-  
+
   // 亮色主题
   &.light {
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 25%, #f1f5f9 50%, #e2e8f0 75%, #f8fafc 100%);
-    
+    background: linear-gradient(
+      135deg,
+      #f8fafc 0%,
+      #e2e8f0 25%,
+      #f1f5f9 50%,
+      #e2e8f0 75%,
+      #f8fafc 100%
+    );
+
     &::before {
       content: '';
       position: absolute;
@@ -18,18 +25,25 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: 
+      background:
         radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
         radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%),
         radial-gradient(circle at 40% 60%, rgba(16, 185, 129, 0.03) 0%, transparent 50%);
       pointer-events: none;
     }
   }
-  
+
   // 暗色主题
   &.dark {
-    background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #1e293b 75%, #0f172a 100%);
-    
+    background: linear-gradient(
+      135deg,
+      #0f172a 0%,
+      #1e293b 25%,
+      #334155 50%,
+      #1e293b 75%,
+      #0f172a 100%
+    );
+
     &::before {
       content: '';
       position: absolute;
@@ -37,7 +51,7 @@
       left: 0;
       right: 0;
       bottom: 0;
-      background: 
+      background:
         radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
         radial-gradient(circle at 40% 60%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
@@ -58,17 +72,17 @@
   position: relative;
   z-index: 100;
   transition: all 0.3s ease;
-  
+
   .light & {
     background: rgba(255, 255, 255, 0.9);
     border-bottom-color: rgba(59, 130, 246, 0.15);
   }
-  
+
   .dark & {
     background: rgba(15, 23, 42, 0.95);
     border-bottom-color: rgba(59, 130, 246, 0.3);
   }
-  
+
   &::after {
     content: '';
     position: absolute;
@@ -76,11 +90,12 @@
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, 
-      transparent 0%, 
-      rgba(59, 130, 246, 0.6) 20%, 
-      rgba(139, 92, 246, 0.6) 50%, 
-      rgba(16, 185, 129, 0.6) 80%, 
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      rgba(59, 130, 246, 0.6) 20%,
+      rgba(139, 92, 246, 0.6) 50%,
+      rgba(16, 185, 129, 0.6) 80%,
       transparent 100%
     );
     animation: pulse 3s ease-in-out infinite;
@@ -88,8 +103,13 @@
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 .leftStatus {
@@ -102,7 +122,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  
+
   .logoIcon {
     width: 48px;
     height: 48px;
@@ -114,13 +134,13 @@
     font-size: 24px;
     box-shadow: 0 8px 32px rgba(59, 130, 246, 0.3);
     transition: all 0.3s ease;
-    
+
     &:hover {
       transform: translateY(-2px);
       box-shadow: 0 12px 40px rgba(59, 130, 246, 0.4);
     }
   }
-  
+
   .logoText {
     margin: 0 !important;
     font-weight: 700;
@@ -128,11 +148,11 @@
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    
+
     .light & {
       color: #1f2937 !important;
     }
-    
+
     .dark & {
       color: #f8fafc !important;
     }
@@ -155,7 +175,7 @@
   height: 8px;
   border-radius: 50%;
   position: relative;
-  
+
   &::after {
     content: '';
     position: absolute;
@@ -166,18 +186,18 @@
     border-radius: 50%;
     animation: statusPulse 2s ease-in-out infinite;
   }
-  
+
   &.online {
     background: #10b981;
-    
+
     &::after {
       background: rgba(16, 185, 129, 0.3);
     }
   }
-  
+
   &.active {
     background: #3b82f6;
-    
+
     &::after {
       background: rgba(59, 130, 246, 0.3);
     }
@@ -185,18 +205,25 @@
 }
 
 @keyframes statusPulse {
-  0%, 100% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.5); opacity: 0; }
+  0%,
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
 }
 
 .statusText {
   font-size: 12px;
   font-weight: 500;
-  
+
   .light & {
     color: #64748b !important;
   }
-  
+
   .dark & {
     color: #cbd5e1 !important;
   }
@@ -210,30 +237,30 @@
 
 .timeDisplay {
   text-align: center;
-  
+
   .timeText {
     display: block;
     font-size: 24px;
     font-weight: 700;
     font-family: 'Courier New', monospace;
     margin-bottom: 4px;
-    
+
     .light & {
       color: #1f2937 !important;
     }
-    
+
     .dark & {
       color: #f8fafc !important;
     }
   }
-  
+
   .dateText {
     font-size: 12px;
-    
+
     .light & {
       color: #64748b !important;
     }
-    
+
     .dark & {
       color: #94a3b8 !important;
     }
@@ -257,12 +284,12 @@
   border-radius: 10px;
   border: 1px solid;
   transition: all 0.3s ease;
-  
+
   .light & {
     background: rgba(255, 255, 255, 0.8);
     border-color: rgba(0, 0, 0, 0.1);
     color: #64748b !important;
-    
+
     &:hover {
       background: rgba(59, 130, 246, 0.1) !important;
       border-color: rgba(59, 130, 246, 0.3) !important;
@@ -270,12 +297,12 @@
       transform: translateY(-2px);
     }
   }
-  
+
   .dark & {
     background: rgba(51, 65, 85, 0.5);
     border-color: rgba(148, 163, 184, 0.2);
     color: #cbd5e1 !important;
-    
+
     &:hover {
       background: rgba(59, 130, 246, 0.2) !important;
       border-color: rgba(59, 130, 246, 0.5) !important;
@@ -293,12 +320,12 @@
   border-radius: 12px;
   border: 1px solid;
   transition: all 0.3s ease;
-  
+
   .light & {
     background: rgba(255, 255, 255, 0.8);
     border-color: rgba(0, 0, 0, 0.1);
   }
-  
+
   .dark & {
     background: rgba(51, 65, 85, 0.3);
     border-color: rgba(148, 163, 184, 0.1);
@@ -314,23 +341,23 @@
     display: block;
     font-weight: 600;
     font-size: 14px;
-    
+
     .light & {
       color: #1f2937 !important;
     }
-    
+
     .dark & {
       color: #f8fafc !important;
     }
   }
-  
+
   .userRole {
     font-size: 12px;
-    
+
     .light & {
       color: #64748b !important;
     }
-    
+
     .dark & {
       color: #94a3b8 !important;
     }
@@ -357,48 +384,96 @@
 
 // 左侧导航面板
 .navigationPanel {
-  width: 280px;
   backdrop-filter: blur(20px);
   border-right: 1px solid;
   display: flex;
   flex-direction: column;
   padding: 24px 0;
   transition: all 0.3s ease;
-  
+
   .light & {
     background: rgba(255, 255, 255, 0.8);
     border-right-color: rgba(0, 0, 0, 0.1);
   }
-  
+
   .dark & {
     background: rgba(15, 23, 42, 0.8);
     border-right-color: rgba(59, 130, 246, 0.2);
   }
+
+  // 展开状态
+  &.expanded {
+    width: 280px;
+  }
+
+  // 收起状态
+  &.collapsed {
+    width: 80px;
+  }
 }
 
-.navTitle {
-  padding: 0 24px 16px;
+// 导航头部
+.navHeader {
+  display: flex;
+  align-items: center;
+  padding: 0 16px 16px;
   border-bottom: 1px solid;
   margin-bottom: 24px;
-  
+  gap: 12px;
+
   .light & {
     border-bottom-color: rgba(0, 0, 0, 0.1);
   }
-  
+
   .dark & {
     border-bottom-color: rgba(148, 163, 184, 0.1);
   }
-  
+}
+
+.collapseButton {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+
+  .light & {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6 !important;
+
+    &:hover {
+      background: rgba(59, 130, 246, 0.2) !important;
+      transform: scale(1.05);
+    }
+  }
+
+  .dark & {
+    background: rgba(59, 130, 246, 0.2);
+    color: #60a5fa !important;
+
+    &:hover {
+      background: rgba(59, 130, 246, 0.3) !important;
+      transform: scale(1.05);
+    }
+  }
+}
+
+.navTitle {
+  flex: 1;
+
   .navTitleText {
     font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    
+
     .light & {
       color: #64748b !important;
     }
-    
+
     .dark & {
       color: #94a3b8 !important;
     }
@@ -419,43 +494,69 @@
   cursor: pointer;
   transition: all 0.3s ease;
   position: relative;
-  
+
   &:hover {
-    transform: translateX(4px);
-    
     .light & {
       background: rgba(59, 130, 246, 0.08);
     }
-    
+
     .dark & {
       background: rgba(59, 130, 246, 0.1);
     }
   }
-  
+
+  // 展开状态的悬停效果
+  &:not(.iconOnly):hover {
+    transform: translateX(4px);
+  }
+
+  // 收起状态（仅图标）
+  &.iconOnly {
+    justify-content: center;
+    padding: 12px;
+
+    .navIcon {
+      margin-right: 0;
+    }
+
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+
   &.active {
     border: 1px solid rgba(59, 130, 246, 0.3);
-    
+
     .light & {
       background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
     }
-    
+
     .dark & {
       background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
     }
-    
+
     .navIcon {
       color: #3b82f6;
     }
-    
+
     .navLabel {
       font-weight: 600;
-      
+
       .light & {
         color: #1f2937 !important;
       }
-      
+
       .dark & {
         color: #f8fafc !important;
+      }
+    }
+
+    // 收起状态下的激活指示器
+    &.iconOnly {
+      .activeIndicator {
+        right: 4px;
+        width: 3px;
+        height: 20px;
       }
     }
   }
@@ -470,11 +571,11 @@
   margin-right: 12px;
   font-size: 18px;
   transition: color 0.3s ease;
-  
+
   .light & {
     color: #64748b;
   }
-  
+
   .dark & {
     color: #94a3b8;
   }
@@ -484,11 +585,11 @@
   font-weight: 500;
   font-size: 14px;
   transition: all 0.3s ease;
-  
+
   .light & {
     color: #64748b !important;
   }
-  
+
   .dark & {
     color: #cbd5e1 !important;
   }
@@ -508,11 +609,11 @@
   padding: 24px;
   border-top: 1px solid;
   margin-top: 24px;
-  
+
   .light & {
     border-top-color: rgba(0, 0, 0, 0.1);
   }
-  
+
   .dark & {
     border-top-color: rgba(148, 163, 184, 0.1);
   }
@@ -524,11 +625,11 @@
   text-transform: uppercase;
   letter-spacing: 1px;
   margin-bottom: 16px;
-  
+
   .light & {
     color: #64748b;
   }
-  
+
   .dark & {
     color: #94a3b8;
   }
@@ -545,11 +646,11 @@
   font-size: 11px;
   width: 32px;
   text-align: right;
-  
+
   .light & {
     color: #64748b !important;
   }
-  
+
   .dark & {
     color: #cbd5e1 !important;
   }
@@ -560,11 +661,11 @@
   height: 4px;
   border-radius: 2px;
   overflow: hidden;
-  
+
   .light & {
     background: rgba(0, 0, 0, 0.1);
   }
-  
+
   .dark & {
     background: rgba(51, 65, 85, 0.5);
   }
@@ -582,11 +683,11 @@
   width: 32px;
   text-align: left;
   font-family: 'Courier New', monospace;
-  
+
   .light & {
     color: #64748b !important;
   }
-  
+
   .dark & {
     color: #94a3b8 !important;
   }
@@ -604,27 +705,27 @@
   flex: 1;
   padding: 32px;
   overflow-y: auto;
-  
+
   &::-webkit-scrollbar {
     width: 8px;
   }
-  
+
   &::-webkit-scrollbar-track {
     border-radius: 4px;
-    
+
     .light & {
       background: rgba(0, 0, 0, 0.05);
     }
-    
+
     .dark & {
       background: rgba(51, 65, 85, 0.3);
     }
   }
-  
+
   &::-webkit-scrollbar-thumb {
     border-radius: 4px;
     background: rgba(59, 130, 246, 0.5);
-    
+
     &:hover {
       background: rgba(59, 130, 246, 0.7);
     }
@@ -640,12 +741,12 @@
   flex-direction: column;
   padding: 24px 0;
   transition: all 0.3s ease;
-  
+
   .light & {
     background: rgba(255, 255, 255, 0.8);
     border-left-color: rgba(0, 0, 0, 0.1);
   }
-  
+
   .dark & {
     background: rgba(15, 23, 42, 0.8);
     border-left-color: rgba(59, 130, 246, 0.2);
@@ -656,25 +757,25 @@
   padding: 0 24px 16px;
   border-bottom: 1px solid;
   margin-bottom: 24px;
-  
+
   .light & {
     border-bottom-color: rgba(0, 0, 0, 0.1);
   }
-  
+
   .dark & {
     border-bottom-color: rgba(148, 163, 184, 0.1);
   }
-  
+
   .infoPanelTitleText {
     font-size: 12px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 1px;
-    
+
     .light & {
       color: #64748b !important;
     }
-    
+
     .dark & {
       color: #94a3b8 !important;
     }
@@ -691,11 +792,11 @@
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 16px;
-  
+
   .light & {
     color: #1f2937;
   }
-  
+
   .dark & {
     color: #cbd5e1;
   }
@@ -706,14 +807,14 @@
   align-items: center;
   gap: 12px;
   margin-bottom: 12px;
-  
+
   :global(.ant-typography) {
     font-size: 13px;
-    
+
     .light & {
       color: #64748b !important;
     }
-    
+
     .dark & {
       color: #94a3b8 !important;
     }
@@ -725,7 +826,7 @@
   height: 8px;
   border-radius: 50%;
   position: relative;
-  
+
   &::after {
     content: '';
     position: absolute;
@@ -741,8 +842,13 @@
 }
 
 @keyframes marketPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.5); }
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5);
+  }
 }
 
 // 快速操作
@@ -755,11 +861,11 @@
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 16px;
-  
+
   .light & {
     color: #1f2937;
   }
-  
+
   .dark & {
     color: #cbd5e1;
   }
@@ -770,24 +876,24 @@
   border-radius: 8px;
   border: 1px solid;
   transition: all 0.3s ease;
-  
+
   .light & {
     background: rgba(255, 255, 255, 0.8) !important;
     border-color: rgba(0, 0, 0, 0.1) !important;
     color: #64748b !important;
-    
+
     &:hover {
       background: rgba(59, 130, 246, 0.1) !important;
       border-color: rgba(59, 130, 246, 0.3) !important;
       color: #3b82f6 !important;
     }
   }
-  
+
   .dark & {
     background: rgba(51, 65, 85, 0.5) !important;
     border-color: rgba(148, 163, 184, 0.2) !important;
     color: #cbd5e1 !important;
-    
+
     &:hover {
       background: rgba(59, 130, 246, 0.2) !important;
       border-color: rgba(59, 130, 246, 0.5) !important;
@@ -809,15 +915,15 @@
   font-size: 14px;
   font-weight: 600;
   margin-bottom: 16px;
-  
+
   .light & {
     color: #1f2937;
   }
-  
+
   .dark & {
     color: #cbd5e1;
   }
-  
+
   .aiIcon {
     font-size: 16px;
   }
@@ -828,23 +934,23 @@
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 12px;
-  
+
   .light & {
     background: rgba(59, 130, 246, 0.05);
   }
-  
+
   .dark & {
     background: rgba(59, 130, 246, 0.1);
   }
-  
+
   .aiText {
     font-size: 13px;
     line-height: 1.5;
-    
+
     .light & {
       color: #64748b !important;
     }
-    
+
     .dark & {
       color: #cbd5e1 !important;
     }
@@ -857,7 +963,7 @@
   color: white !important;
   border-radius: 6px;
   transition: all 0.3s ease;
-  
+
   &:hover {
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);

@@ -1,12 +1,12 @@
-import React from 'react'
-import { Typography, Avatar, Badge, Button, Space } from 'antd'
-import { 
-  BellOutlined, 
+import {
+  BellOutlined,
   UserOutlined,
   SunOutlined,
   MoonOutlined,
-  SearchOutlined
+  SearchOutlined,
 } from '@ant-design/icons'
+import { Avatar, Badge, Button, Typography } from 'antd'
+import React from 'react'
 import { useThemeStore } from '@/stores/themeStore'
 
 const { Title, Text } = Typography
@@ -27,7 +27,7 @@ const MobileHeader: React.FC = () => {
         <div className="flex items-center justify-between">
           {/* Left: Greeting and User Info */}
           <div className="flex items-center space-x-4">
-            <Avatar 
+            <Avatar
               size={48}
               icon={<UserOutlined />}
               className="bg-gradient-to-r from-blue-500 to-purple-600 border-2 border-white shadow-lg"

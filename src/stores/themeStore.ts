@@ -18,7 +18,7 @@ const getSystemTheme = (): boolean => {
 
 const applyTheme = (isDark: boolean) => {
   if (typeof document === 'undefined') return
-  
+
   const root = document.documentElement
   if (isDark) {
     root.setAttribute('data-theme', 'dark')
@@ -34,37 +34,37 @@ export const useThemeStore = create<ThemeState>()(
     (set, get) => ({
       mode: 'auto',
       isDark: getSystemTheme(),
-      
+
       toggleTheme: () => {
         const { isDark } = get()
         const newMode: ThemeMode = isDark ? 'light' : 'dark'
         const newIsDark = newMode === 'dark'
-        
+
         set({ mode: newMode, isDark: newIsDark })
         applyTheme(newIsDark)
       },
-      
+
       setTheme: (mode: ThemeMode) => {
         let isDark: boolean
-        
+
         if (mode === 'auto') {
           isDark = getSystemTheme()
         } else {
           isDark = mode === 'dark'
         }
-        
+
         set({ mode, isDark })
         applyTheme(isDark)
       },
-      
+
       setDarkMode: (isDark: boolean) => {
         set({ isDark })
         applyTheme(isDark)
-      }
+      },
     }),
     {
       name: 'fundpilot-theme',
-      onRehydrateStorage: () => (state) => {
+      onRehydrateStorage: () => state => {
         if (state) {
           // 恢复主题状态时应用主题
           if (state.mode === 'auto') {
@@ -73,7 +73,7 @@ export const useThemeStore = create<ThemeState>()(
           } else {
             applyTheme(state.isDark)
           }
-          
+
           // 监听系统主题变化
           if (typeof window !== 'undefined' && state.mode === 'auto') {
             const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
@@ -85,7 +85,7 @@ export const useThemeStore = create<ThemeState>()(
             mediaQuery.addEventListener('change', handleChange)
           }
         }
-      }
+      },
     }
   )
 )

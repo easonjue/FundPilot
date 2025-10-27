@@ -17,16 +17,16 @@ export const useDeviceDetection = (): DeviceInfo => {
     const width = typeof window !== 'undefined' ? window.innerWidth : 1920
     const height = typeof window !== 'undefined' ? window.innerHeight : 1080
     const pixelRatio = typeof window !== 'undefined' ? window.devicePixelRatio : 1
-    
+
     const isMobile = width < 768
     const isTablet = width >= 768 && width < 1024
     const isDesktop = width >= 1024
     const orientation = width > height ? 'landscape' : 'portrait'
-    
+
     let deviceType: 'mobile' | 'tablet' | 'desktop' = 'desktop'
     if (isMobile) deviceType = 'mobile'
     else if (isTablet) deviceType = 'tablet'
-    
+
     return {
       isMobile,
       isTablet,
@@ -35,7 +35,7 @@ export const useDeviceDetection = (): DeviceInfo => {
       screenHeight: height,
       deviceType,
       orientation,
-      pixelRatio
+      pixelRatio,
     }
   })
 
@@ -48,11 +48,11 @@ export const useDeviceDetection = (): DeviceInfo => {
       const isTablet = width >= 768 && width < 1024
       const isDesktop = width >= 1024
       const orientation = width > height ? 'landscape' : 'portrait'
-      
+
       let deviceType: 'mobile' | 'tablet' | 'desktop' = 'desktop'
       if (isMobile) deviceType = 'mobile'
       else if (isTablet) deviceType = 'tablet'
-      
+
       setDeviceInfo({
         isMobile,
         isTablet,
@@ -61,7 +61,7 @@ export const useDeviceDetection = (): DeviceInfo => {
         screenHeight: height,
         deviceType,
         orientation,
-        pixelRatio
+        pixelRatio,
       })
     }
 

@@ -27,13 +27,13 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
     // 如果是自动模式，监听系统主题变化
     if (mode === 'auto') {
       const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
-      
+
       const handleChange = (e: MediaQueryListEvent) => {
         setDarkMode(e.matches)
       }
 
       mediaQuery.addEventListener('change', handleChange)
-      
+
       // 初始设置
       setDarkMode(mediaQuery.matches)
 

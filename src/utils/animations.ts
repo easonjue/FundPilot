@@ -28,7 +28,7 @@ export const createAnimation = (
     delay = 0,
     easing = 'ease-out',
     fillMode = 'both',
-    iterationCount = 1
+    iterationCount = 1,
   } = options
 
   return element.animate(keyframes, {
@@ -36,56 +36,33 @@ export const createAnimation = (
     delay,
     easing,
     fill: fillMode,
-    iterations: iterationCount || 1
+    iterations: iterationCount || 1,
   })
 }
 
 /**
  * 淡入动画
  */
-export const fadeIn = (
-  element: HTMLElement,
-  options: AnimationOptions = {}
-): Animation => {
-  return createAnimation(
-    element,
-    [
-      { opacity: 0 },
-      { opacity: 1 }
-    ],
-    { duration: 300, ...options }
-  )
+export const fadeIn = (element: HTMLElement, options: AnimationOptions = {}): Animation => {
+  return createAnimation(element, [{ opacity: 0 }, { opacity: 1 }], { duration: 300, ...options })
 }
 
 /**
  * 淡出动画
  */
-export const fadeOut = (
-  element: HTMLElement,
-  options: AnimationOptions = {}
-): Animation => {
-  return createAnimation(
-    element,
-    [
-      { opacity: 1 },
-      { opacity: 0 }
-    ],
-    { duration: 300, ...options }
-  )
+export const fadeOut = (element: HTMLElement, options: AnimationOptions = {}): Animation => {
+  return createAnimation(element, [{ opacity: 1 }, { opacity: 0 }], { duration: 300, ...options })
 }
 
 /**
  * 从下方淡入
  */
-export const fadeInUp = (
-  element: HTMLElement,
-  options: AnimationOptions = {}
-): Animation => {
+export const fadeInUp = (element: HTMLElement, options: AnimationOptions = {}): Animation => {
   return createAnimation(
     element,
     [
       { opacity: 0, transform: 'translateY(20px)' },
-      { opacity: 1, transform: 'translateY(0)' }
+      { opacity: 1, transform: 'translateY(0)' },
     ],
     { duration: 500, ...options }
   )
@@ -94,15 +71,12 @@ export const fadeInUp = (
 /**
  * 从上方淡入
  */
-export const fadeInDown = (
-  element: HTMLElement,
-  options: AnimationOptions = {}
-): Animation => {
+export const fadeInDown = (element: HTMLElement, options: AnimationOptions = {}): Animation => {
   return createAnimation(
     element,
     [
       { opacity: 0, transform: 'translateY(-20px)' },
-      { opacity: 1, transform: 'translateY(0)' }
+      { opacity: 1, transform: 'translateY(0)' },
     ],
     { duration: 500, ...options }
   )
@@ -111,15 +85,12 @@ export const fadeInDown = (
 /**
  * 缩放进入
  */
-export const scaleIn = (
-  element: HTMLElement,
-  options: AnimationOptions = {}
-): Animation => {
+export const scaleIn = (element: HTMLElement, options: AnimationOptions = {}): Animation => {
   return createAnimation(
     element,
     [
       { opacity: 0, transform: 'scale(0.9)' },
-      { opacity: 1, transform: 'scale(1)' }
+      { opacity: 1, transform: 'scale(1)' },
     ],
     { duration: 300, easing: 'cubic-bezier(0, 0, 0.2, 1)', ...options }
   )
@@ -128,15 +99,12 @@ export const scaleIn = (
 /**
  * 缩放退出
  */
-export const scaleOut = (
-  element: HTMLElement,
-  options: AnimationOptions = {}
-): Animation => {
+export const scaleOut = (element: HTMLElement, options: AnimationOptions = {}): Animation => {
   return createAnimation(
     element,
     [
       { opacity: 1, transform: 'scale(1)' },
-      { opacity: 0, transform: 'scale(0.9)' }
+      { opacity: 0, transform: 'scale(0.9)' },
     ],
     { duration: 300, easing: 'cubic-bezier(0.4, 0, 1, 1)', ...options }
   )
@@ -145,16 +113,10 @@ export const scaleOut = (
 /**
  * 滑入（从左）
  */
-export const slideInLeft = (
-  element: HTMLElement,
-  options: AnimationOptions = {}
-): Animation => {
+export const slideInLeft = (element: HTMLElement, options: AnimationOptions = {}): Animation => {
   return createAnimation(
     element,
-    [
-      { transform: 'translateX(-100%)' },
-      { transform: 'translateX(0)' }
-    ],
+    [{ transform: 'translateX(-100%)' }, { transform: 'translateX(0)' }],
     { duration: 300, ...options }
   )
 }
@@ -162,16 +124,10 @@ export const slideInLeft = (
 /**
  * 滑入（从右）
  */
-export const slideInRight = (
-  element: HTMLElement,
-  options: AnimationOptions = {}
-): Animation => {
+export const slideInRight = (element: HTMLElement, options: AnimationOptions = {}): Animation => {
   return createAnimation(
     element,
-    [
-      { transform: 'translateX(100%)' },
-      { transform: 'translateX(0)' }
-    ],
+    [{ transform: 'translateX(100%)' }, { transform: 'translateX(0)' }],
     { duration: 300, ...options }
   )
 }
@@ -179,17 +135,14 @@ export const slideInRight = (
 /**
  * 弹性进入
  */
-export const elasticIn = (
-  element: HTMLElement,
-  options: AnimationOptions = {}
-): Animation => {
+export const elasticIn = (element: HTMLElement, options: AnimationOptions = {}): Animation => {
   return createAnimation(
     element,
     [
       { opacity: 0, transform: 'scale(0.3)' },
       { opacity: 1, transform: 'scale(1.05)' },
       { transform: 'scale(0.9)' },
-      { opacity: 1, transform: 'scale(1)' }
+      { opacity: 1, transform: 'scale(1)' },
     ],
     { duration: 600, easing: 'ease-out', ...options }
   )
@@ -198,10 +151,7 @@ export const elasticIn = (
 /**
  * 摇摆动画
  */
-export const shake = (
-  element: HTMLElement,
-  options: AnimationOptions = {}
-): Animation => {
+export const shake = (element: HTMLElement, options: AnimationOptions = {}): Animation => {
   return createAnimation(
     element,
     [
@@ -210,7 +160,7 @@ export const shake = (
       { transform: 'translateX(5px)' },
       { transform: 'translateX(-5px)' },
       { transform: 'translateX(5px)' },
-      { transform: 'translateX(0)' }
+      { transform: 'translateX(0)' },
     ],
     { duration: 500, ...options }
   )
@@ -219,16 +169,13 @@ export const shake = (
 /**
  * 脉冲动画
  */
-export const pulse = (
-  element: HTMLElement,
-  options: AnimationOptions = {}
-): Animation => {
+export const pulse = (element: HTMLElement, options: AnimationOptions = {}): Animation => {
   return createAnimation(
     element,
     [
       { opacity: 1, transform: 'scale(1)' },
       { opacity: 0.8, transform: 'scale(1.05)' },
-      { opacity: 1, transform: 'scale(1)' }
+      { opacity: 1, transform: 'scale(1)' },
     ],
     { duration: 2000, iterationCount: 'infinite', ...options }
   )
@@ -242,17 +189,17 @@ export const addAnimationClass = (
   className: string,
   duration?: number
 ): Promise<void> => {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     element.classList.add(className)
-    
+
     const handleAnimationEnd = () => {
       element.classList.remove(className)
       element.removeEventListener('animationend', handleAnimationEnd)
       resolve()
     }
-    
+
     element.addEventListener('animationend', handleAnimationEnd)
-    
+
     // 如果指定了持续时间，使用setTimeout作为后备
     if (duration) {
       setTimeout(() => {
@@ -295,7 +242,7 @@ export const parallelAnimations = async (
     }
     return Promise.resolve()
   })
-  
+
   await Promise.all(promises)
 }
 
@@ -308,7 +255,7 @@ export const staggerAnimations = async (
   staggerDelay: number = 100
 ): Promise<void> => {
   const promises = elements.map((element, index) => {
-    return new Promise<void>((resolve) => {
+    return new Promise<void>(resolve => {
       setTimeout(async () => {
         const result = animationFn(element, index)
         if (result instanceof Promise) {
@@ -320,7 +267,7 @@ export const staggerAnimations = async (
       }, index * staggerDelay)
     })
   })
-  
+
   await Promise.all(promises)
 }
 
@@ -345,7 +292,7 @@ export const safeAnimate = async (
     }
     return Promise.resolve()
   }
-  
+
   const result = animationFn()
   if (result instanceof Promise) {
     return result
@@ -362,15 +309,10 @@ export const createTransition = (
   properties: Record<string, string>,
   options: TransitionOptions = {}
 ): void => {
-  const {
-    duration = 300,
-    delay = 0,
-    easing = 'ease-out',
-    property = 'all'
-  } = options
+  const { duration = 300, delay = 0, easing = 'ease-out', property = 'all' } = options
 
   element.style.transition = `${property} ${duration}ms ${easing} ${delay}ms`
-  
+
   // 应用新的样式
   Object.assign(element.style, properties)
 }
@@ -391,14 +333,14 @@ export class AnimationQueue {
 
   private async run(): Promise<void> {
     this.isRunning = true
-    
+
     while (this.queue.length > 0) {
       const animationFn = this.queue.shift()
       if (animationFn) {
         await animationFn()
       }
     }
-    
+
     this.isRunning = false
   }
 

@@ -1,21 +1,21 @@
-import React from 'react'
 import { Card, Space, Typography, Divider } from 'antd'
-import { useI18n } from '@/hooks/useI18n'
+import React from 'react'
 import LanguageSwitcher from '@/components/LanguageSwitcher'
+import { useI18n } from '@/hooks/useI18n'
 
 const { Title, Text, Paragraph } = Typography
 
 const I18nDemo: React.FC = () => {
-  const { 
-    t, 
-    formatNumber, 
-    formatCurrency, 
-    formatPercent, 
-    formatDate, 
-    formatTime, 
+  const {
+    t,
+    formatNumber,
+    formatCurrency,
+    formatPercent,
+    formatDate,
+    formatTime,
     formatDateTime,
     formatRelativeTime,
-    currentLanguage 
+    currentLanguage,
   } = useI18n()
 
   const demoData = {
@@ -23,7 +23,7 @@ const I18nDemo: React.FC = () => {
     currency: 1234567.89,
     percent: 15.67,
     date: new Date(),
-    pastDate: new Date(Date.now() - 2 * 60 * 60 * 1000) // 2小时前
+    pastDate: new Date(Date.now() - 2 * 60 * 60 * 1000), // 2小时前
   }
 
   return (
@@ -108,9 +108,15 @@ const I18nDemo: React.FC = () => {
               <Text strong>{t('layout.marketStatus')}:</Text>
             </Paragraph>
             <ul>
-              <li>{t('market.shanghaiShenzhen300')} - {t('market.open')}</li>
-              <li>{t('market.hongKongStock')} - {t('market.suspended')}</li>
-              <li>{t('market.usStock')} - {t('market.closed')}</li>
+              <li>
+                {t('market.shanghaiShenzhen300')} - {t('market.open')}
+              </li>
+              <li>
+                {t('market.hongKongStock')} - {t('market.suspended')}
+              </li>
+              <li>
+                {t('market.usStock')} - {t('market.closed')}
+              </li>
             </ul>
           </Space>
         </Card>

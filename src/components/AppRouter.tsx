@@ -17,45 +17,45 @@ const AppRouter: React.FC = () => {
       <Suspense fallback={<LoadingSpinner message="加载中..." />}>
         <Routes>
           <Route path="/" element={<Navigate to="/dashboard" replace />} />
-          <Route 
-            path="/dashboard" 
+          <Route
+            path="/dashboard"
             element={
               <ModuleErrorBoundary moduleName="仪表盘">
                 <Dashboard />
               </ModuleErrorBoundary>
-            } 
+            }
           />
-          <Route 
-            path="/analysis" 
+          <Route
+            path="/analysis"
             element={
               <ModuleErrorBoundary moduleName="基金分析">
                 <FundAnalysis />
               </ModuleErrorBoundary>
-            } 
+            }
           />
-          <Route 
-            path="/strategy" 
+          <Route
+            path="/strategy"
             element={
               <ModuleErrorBoundary moduleName="策略信号">
                 <Strategy />
               </ModuleErrorBoundary>
-            } 
+            }
           />
-          <Route 
-            path="/notifications" 
+          <Route
+            path="/notifications"
             element={
               <ModuleErrorBoundary moduleName="推送配置">
                 <Notifications />
               </ModuleErrorBoundary>
-            } 
+            }
           />
-          <Route 
-            path="/settings" 
+          <Route
+            path="/settings"
             element={
               <ModuleErrorBoundary moduleName="系统设置">
                 <Settings />
               </ModuleErrorBoundary>
-            } 
+            }
           />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Routes>

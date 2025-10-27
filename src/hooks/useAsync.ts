@@ -41,7 +41,7 @@ export function useAsync<T>(
 
     try {
       const data = await asyncFunction()
-      
+
       if (mountedRef.current && callId === lastCallIdRef.current) {
         setState({ data, loading: false, error: null })
         onSuccess?.(data)

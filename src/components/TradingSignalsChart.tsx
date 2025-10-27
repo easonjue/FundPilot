@@ -1,13 +1,13 @@
-import React, { useMemo, useState } from 'react'
-import { Card, Space, Select, Switch, Typography, Tag, Tooltip, Row, Col } from 'antd'
-import ReactECharts from 'echarts-for-react'
-import type { EChartsOption } from 'echarts'
-import { 
-  ArrowUpOutlined, 
-  ArrowDownOutlined, 
+import {
+  ArrowUpOutlined,
+  ArrowDownOutlined,
   MinusOutlined,
-  FilterOutlined 
+  FilterOutlined,
 } from '@ant-design/icons'
+import { Card, Col, Row, Select, Space, Switch, Typography } from 'antd'
+import type { EChartsOption } from 'echarts'
+import ReactECharts from 'echarts-for-react'
+import React, { useMemo, useState } from 'react'
 import type { Fund, FundDataPoint, TradingSignal } from '@/types'
 
 const { Title, Text } = Typography
@@ -32,13 +32,13 @@ interface SignalFilters {
 const generateMockSignals = (fund: Fund, fundData: FundDataPoint[]): TradingSignal[] => {
   const signals: TradingSignal[] = []
   const strategies = ['均线交叉', 'RSI超买超卖', 'MACD金叉死叉', '布林带突破', '成交量异动']
-  
+
   // Generate signals at random intervals
   for (let i = 20; i < fundData.length; i += Math.floor(Math.random() * 15) + 5) {
     const strategy = strategies[Math.floor(Math.random() * strategies.length)]
     const signalType = Math.random() > 0.6 ? 'buy' : Math.random() > 0.3 ? 'sell' : 'hold'
     const confidence = 0.5 + Math.random() * 0.4 // 50% - 90%
-    
+
     signals.push({
       id: `signal_${i}`,
       fundCode: fund.code,
@@ -47,11 +47,12 @@ const generateMockSignals = (fund: Fund, fundData: FundDataPoint[]): TradingSign
       strategyType: strategy,
       signalType,
       confidence,
-      recommendation: signalType === 'buy' ? '建议买入' : signalType === 'sell' ? '建议卖出' : '建议持有',
-      technicalReason: `基于${strategy}策略，置信度${Math.round(confidence * 100)}%`
+      recommendation:
+        signalType === 'buy' ? '建议买入' : signalType === 'sell' ? '建议卖出' : '建议持有',
+      technicalReason: `基于${strategy}策略，置信度${Math.round(confidence * 100)}%`,
     })
   }
-  
+
   return signals.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
 }
 
@@ -60,13 +61,13 @@ const TradingSignalsChart: React.FC<TradingSignalsChartProps> = ({
   fundData,
   signals: propSignals,
   onSignalClick,
-  className = ''
+  className = '',
 }) => {
   const [filters, setFilters] = useState<SignalFilters>({
     strategyTypes: [],
     signalTypes: [],
     minConfidence: 0,
-    showAll: true
+    showAll: true,
   })
 
   // Generate mock signals if none provided
@@ -78,7 +79,10 @@ const TradingSignalsChart: React.FC<TradingSignalsChartProps> = ({
   const filteredSignals = useMemo(() => {
     return allSignals.filter(signal => {
       if (!filters.showAll) {
-        if (filters.strategyTypes.length > 0 && !filters.strategyTypes.includes(signal.strategyType)) {
+        if (
+          filters.strategyTypes.length > 0 &&
+          !filters.strategyTypes.includes(signal.strategyType)
+        ) {
           return false
         }
         if (filters.signalTypes.length > 0 && !filters.signalTypes.includes(signal.signalType)) {
@@ -97,7 +101,7 @@ const TradingSignalsChart: React.FC<TradingSignalsChartProps> = ({
     return Array.from(new Set(allSignals.map(s => s.strategyType)))
   }, [allSignals])
 
-  const getSignalIcon = (signalType: 'buy' | 'sell' | 'hold') => {
+  const _getSignalIcon = (signalType: 'buy' | 'sell' | 'hold') => {
     switch (signalType) {
       case 'buy':
         return <ArrowUpOutlined className="text-success-500" />
@@ -126,38 +130,45 @@ const TradingSignalsChart: React.FC<TradingSignalsChartProps> = ({
     const prices = fundData.map(d => d.value)
 
     // Create signal markers
-    const signalMarkers = filteredSignals.map(signal => {
-      const dateIndex = dates.findIndex(date => 
-        new Date(date).toDateString() === new Date(signal.date).toDateString()
-      )
-      
-      if (dateIndex === -1) return null
+    const signalMarkers = filteredSignals
+      .map(signal => {
+        const dateIndex = dates.findIndex(
+          date => new Date(date).toDateString() === new Date(signal.date).toDateString()
+        )
 
-      return {
-        name: signal.strategyType,
-        coord: [dateIndex, prices[dateIndex]],
-        value: signal.signalType,
-        itemStyle: {
-          color: getSignalColor(signal.signalType)
-        },
-        symbol: signal.signalType === 'buy' ? 'triangle' : signal.signalType === 'sell' ? 'diamond' : 'circle',
-        symbolSize: 12,
-        data: signal
-      }
-    }).filter(Boolean)
+        if (dateIndex === -1) return null
+
+        return {
+          name: signal.strategyType,
+          coord: [dateIndex, prices[dateIndex]],
+          value: signal.signalType,
+          itemStyle: {
+            color: getSignalColor(signal.signalType),
+          },
+          symbol:
+            signal.signalType === 'buy'
+              ? 'triangle'
+              : signal.signalType === 'sell'
+                ? 'diamond'
+                : 'circle',
+          symbolSize: 12,
+          data: signal,
+        }
+      })
+      .filter(Boolean)
 
     return {
       title: {
         text: `${fund.name} 交易信号`,
         left: 'center',
-        textStyle: { fontSize: 16, fontWeight: 'bold' }
+        textStyle: { fontSize: 16, fontWeight: 'bold' },
       },
       tooltip: {
         trigger: 'axis',
         axisPointer: { type: 'cross' },
         formatter: (params: any) => {
           if (!Array.isArray(params)) return ''
-          
+
           let tooltip = ''
           params.forEach((param: any) => {
             if (param.componentType === 'series' && param.seriesType === 'line') {
@@ -166,20 +177,20 @@ const TradingSignalsChart: React.FC<TradingSignalsChartProps> = ({
               tooltip += `<div style="color: ${param.color}">净值: ${param.value.toFixed(4)}</div>`
             }
           })
-          
+
           return tooltip
-        }
+        },
       },
       legend: {
         data: ['净值', '买入信号', '卖出信号', '持有信号'],
-        top: 30
+        top: 30,
       },
       grid: {
         left: '3%',
         right: '4%',
         bottom: '10%',
         top: '15%',
-        containLabel: true
+        containLabel: true,
       },
       xAxis: {
         type: 'category',
@@ -188,15 +199,15 @@ const TradingSignalsChart: React.FC<TradingSignalsChartProps> = ({
           formatter: (value: string) => {
             return new Date(value).toLocaleDateString('zh-CN', {
               month: 'short',
-              day: 'numeric'
+              day: 'numeric',
             })
-          }
-        }
+          },
+        },
       },
       yAxis: {
         type: 'value',
         axisLabel: { formatter: '{value}' },
-        splitLine: { lineStyle: { type: 'dashed', opacity: 0.3 } }
+        splitLine: { lineStyle: { type: 'dashed', opacity: 0.3 } },
       },
       series: [
         {
@@ -218,24 +229,24 @@ const TradingSignalsChart: React.FC<TradingSignalsChartProps> = ({
                   <div>时间: ${new Date(signal.date).toLocaleDateString('zh-CN')}</div>
                   <div>原因: ${signal.technicalReason}</div>
                 `
-              }
-            }
-          }
-        }
+              },
+            },
+          },
+        },
       ],
       dataZoom: [
         {
           type: 'inside',
           start: 70,
-          end: 100
+          end: 100,
         },
         {
           start: 70,
           end: 100,
           height: 30,
-          bottom: 20
-        }
-      ]
+          bottom: 20,
+        },
+      ],
     }
   }, [fundData, fund, filteredSignals])
 
@@ -244,11 +255,13 @@ const TradingSignalsChart: React.FC<TradingSignalsChartProps> = ({
   }
 
   return (
-    <Card 
+    <Card
       className={`card ${className}`}
       title={
         <div className="flex items-center justify-between">
-          <Title level={4} className="mb-0">交易信号分析</Title>
+          <Title level={4} className="mb-0">
+            交易信号分析
+          </Title>
           <Space>
             <FilterOutlined />
             <Text className="text-sm text-gray-500">
@@ -267,11 +280,11 @@ const TradingSignalsChart: React.FC<TradingSignalsChartProps> = ({
                 <Text className="text-sm text-gray-500 mb-1 block">显示所有信号</Text>
                 <Switch
                   checked={filters.showAll}
-                  onChange={(checked) => handleFilterChange('showAll', checked)}
+                  onChange={checked => handleFilterChange('showAll', checked)}
                 />
               </div>
             </Col>
-            
+
             {!filters.showAll && (
               <>
                 <Col xs={24} sm={12} md={6}>
@@ -281,17 +294,19 @@ const TradingSignalsChart: React.FC<TradingSignalsChartProps> = ({
                       mode="multiple"
                       placeholder="选择策略"
                       value={filters.strategyTypes}
-                      onChange={(value) => handleFilterChange('strategyTypes', value)}
+                      onChange={value => handleFilterChange('strategyTypes', value)}
                       style={{ width: '100%' }}
                       size="small"
                     >
                       {strategyTypes.map(type => (
-                        <Option key={type} value={type}>{type}</Option>
+                        <Option key={type} value={type}>
+                          {type}
+                        </Option>
                       ))}
                     </Select>
                   </div>
                 </Col>
-                
+
                 <Col xs={24} sm={12} md={6}>
                   <div>
                     <Text className="text-sm text-gray-500 mb-1 block">信号类型</Text>
@@ -299,7 +314,7 @@ const TradingSignalsChart: React.FC<TradingSignalsChartProps> = ({
                       mode="multiple"
                       placeholder="选择信号"
                       value={filters.signalTypes}
-                      onChange={(value) => handleFilterChange('signalTypes', value)}
+                      onChange={value => handleFilterChange('signalTypes', value)}
                       style={{ width: '100%' }}
                       size="small"
                     >
@@ -309,13 +324,13 @@ const TradingSignalsChart: React.FC<TradingSignalsChartProps> = ({
                     </Select>
                   </div>
                 </Col>
-                
+
                 <Col xs={24} sm={12} md={6}>
                   <div>
                     <Text className="text-sm text-gray-500 mb-1 block">最低置信度</Text>
                     <Select
                       value={filters.minConfidence}
-                      onChange={(value) => handleFilterChange('minConfidence', value)}
+                      onChange={value => handleFilterChange('minConfidence', value)}
                       style={{ width: '100%' }}
                       size="small"
                     >
@@ -342,7 +357,7 @@ const TradingSignalsChart: React.FC<TradingSignalsChartProps> = ({
                 if (params.componentType === 'markPoint' && params.data?.data) {
                   onSignalClick?.(params.data.data)
                 }
-              }
+              },
             }}
           />
         </div>

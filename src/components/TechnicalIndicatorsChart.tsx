@@ -1,7 +1,7 @@
-import React, { useMemo, useState } from 'react'
 import { Card, Space, Switch, Select, Typography, Divider, Row, Col } from 'antd'
-import ReactECharts from 'echarts-for-react'
 import type { EChartsOption } from 'echarts'
+import ReactECharts from 'echarts-for-react'
+import React, { useMemo, useState } from 'react'
 import type { Fund, FundDataPoint, TechnicalIndicator, TimeRange } from '@/types'
 
 const { Title, Text } = Typography
@@ -50,13 +50,13 @@ const calculateRSI = (data: FundDataPoint[], period: number = 14): number[] => {
   const rsi: number[] = []
   const gains: number[] = []
   const losses: number[] = []
-  
+
   for (let i = 1; i < data.length; i++) {
     const change = data[i].value - data[i - 1].value
     gains.push(change > 0 ? change : 0)
     losses.push(change < 0 ? -change : 0)
   }
-  
+
   for (let i = 0; i < data.length; i++) {
     if (i < period) {
       rsi.push(NaN)
@@ -64,32 +64,40 @@ const calculateRSI = (data: FundDataPoint[], period: number = 14): number[] => {
       const avgGain = gains.slice(i - period, i).reduce((a, b) => a + b, 0) / period
       const avgLoss = losses.slice(i - period, i).reduce((a, b) => a + b, 0) / period
       const rs = avgGain / (avgLoss || 1)
-      rsi.push(100 - (100 / (1 + rs)))
+      rsi.push(100 - 100 / (1 + rs))
     }
   }
-  
+
   return rsi
 }
 
-const calculateMACD = (data: FundDataPoint[]): { macd: number[], signal: number[], histogram: number[] } => {
-  const ema12 = calculateEMA(data.map(d => d.value), 12)
-  const ema26 = calculateEMA(data.map(d => d.value), 26)
+const calculateMACD = (
+  data: FundDataPoint[]
+): { macd: number[]; signal: number[]; histogram: number[] } => {
+  const ema12 = calculateEMA(
+    data.map(d => d.value),
+    12
+  )
+  const ema26 = calculateEMA(
+    data.map(d => d.value),
+    26
+  )
   const macd = ema12.map((val, i) => val - ema26[i])
   const signal = calculateEMA(macd, 9)
   const histogram = macd.map((val, i) => val - signal[i])
-  
+
   return { macd, signal, histogram }
 }
 
 const calculateEMA = (data: number[], period: number): number[] => {
   const ema: number[] = []
   const multiplier = 2 / (period + 1)
-  
+
   ema[0] = data[0]
   for (let i = 1; i < data.length; i++) {
-    ema[i] = (data[i] * multiplier) + (ema[i - 1] * (1 - multiplier))
+    ema[i] = data[i] * multiplier + ema[i - 1] * (1 - multiplier)
   }
-  
+
   return ema
 }
 
@@ -100,12 +108,12 @@ const TechnicalIndicatorsChart: React.FC<TechnicalIndicatorsChartProps> = ({
   onTimeRangeChange,
   onIndicatorToggle,
   loading = false,
-  className = ''
+  className = '',
 }) => {
   const [enabledIndicators, setEnabledIndicators] = useState<IndicatorConfig>({
     MA: true,
     RSI: true,
-    MACD: true
+    MACD: true,
   })
 
   const handleIndicatorToggle = (indicator: keyof IndicatorConfig, enabled: boolean) => {
@@ -118,7 +126,7 @@ const TechnicalIndicatorsChart: React.FC<TechnicalIndicatorsChartProps> = ({
 
     const dates = fundData.map(d => d.date)
     const prices = fundData.map(d => d.value)
-    
+
     // Calculate indicators
     const ma20 = calculateMA(fundData, 20)
     const ma60 = calculateMA(fundData, 60)
@@ -134,8 +142,8 @@ const TechnicalIndicatorsChart: React.FC<TechnicalIndicatorsChartProps> = ({
         smooth: true,
         symbol: 'none',
         lineStyle: { width: 2, color: '#2D6DF6' },
-        yAxisIndex: 0
-      }
+        yAxisIndex: 0,
+      },
     ]
 
     // Add MA indicators
@@ -148,7 +156,7 @@ const TechnicalIndicatorsChart: React.FC<TechnicalIndicatorsChartProps> = ({
           smooth: true,
           symbol: 'none',
           lineStyle: { width: 1, color: '#FF6B35', type: 'dashed' },
-          yAxisIndex: 0
+          yAxisIndex: 0,
         },
         {
           name: 'MA60',
@@ -157,7 +165,7 @@ const TechnicalIndicatorsChart: React.FC<TechnicalIndicatorsChartProps> = ({
           smooth: true,
           symbol: 'none',
           lineStyle: { width: 1, color: '#4ECDC4', type: 'dashed' },
-          yAxisIndex: 0
+          yAxisIndex: 0,
         }
       )
     }
@@ -171,7 +179,7 @@ const TechnicalIndicatorsChart: React.FC<TechnicalIndicatorsChartProps> = ({
         smooth: true,
         symbol: 'none',
         lineStyle: { width: 1, color: '#9B59B6' },
-        yAxisIndex: 1
+        yAxisIndex: 1,
       })
     }
 
@@ -185,7 +193,7 @@ const TechnicalIndicatorsChart: React.FC<TechnicalIndicatorsChartProps> = ({
           smooth: true,
           symbol: 'none',
           lineStyle: { width: 1, color: '#E74C3C' },
-          yAxisIndex: 2
+          yAxisIndex: 2,
         },
         {
           name: 'Signal',
@@ -194,17 +202,17 @@ const TechnicalIndicatorsChart: React.FC<TechnicalIndicatorsChartProps> = ({
           smooth: true,
           symbol: 'none',
           lineStyle: { width: 1, color: '#F39C12' },
-          yAxisIndex: 2
+          yAxisIndex: 2,
         },
         {
           name: 'Histogram',
           type: 'bar',
           data: histogram,
-          itemStyle: { 
-            color: (params: any) => params.value >= 0 ? '#27AE60' : '#E74C3C',
-            opacity: 0.6
+          itemStyle: {
+            color: (params: any) => (params.value >= 0 ? '#27AE60' : '#E74C3C'),
+            opacity: 0.6,
           },
-          yAxisIndex: 2
+          yAxisIndex: 2,
         }
       )
     }
@@ -216,8 +224,8 @@ const TechnicalIndicatorsChart: React.FC<TechnicalIndicatorsChartProps> = ({
         name: '净值',
         position: 'left',
         axisLabel: { formatter: '{value}' },
-        splitLine: { show: true, lineStyle: { type: 'dashed', opacity: 0.3 } }
-      }
+        splitLine: { show: true, lineStyle: { type: 'dashed', opacity: 0.3 } },
+      },
     ]
 
     // RSI axis
@@ -231,7 +239,7 @@ const TechnicalIndicatorsChart: React.FC<TechnicalIndicatorsChartProps> = ({
         axisLabel: { formatter: '{value}' },
         splitLine: { show: false },
         axisLine: { show: true },
-        offset: 0
+        offset: 0,
       })
     }
 
@@ -244,7 +252,7 @@ const TechnicalIndicatorsChart: React.FC<TechnicalIndicatorsChartProps> = ({
         axisLabel: { formatter: '{value}' },
         splitLine: { show: false },
         axisLine: { show: true },
-        offset: enabledIndicators.RSI ? 60 : 0
+        offset: enabledIndicators.RSI ? 60 : 0,
       })
     }
 
@@ -252,17 +260,17 @@ const TechnicalIndicatorsChart: React.FC<TechnicalIndicatorsChartProps> = ({
       title: {
         text: `${fund.name} 技术分析`,
         left: 'center',
-        textStyle: { fontSize: 16, fontWeight: 'bold' }
+        textStyle: { fontSize: 16, fontWeight: 'bold' },
       },
       tooltip: {
         trigger: 'axis',
         axisPointer: { type: 'cross' },
         formatter: (params: any) => {
           if (!Array.isArray(params) || params.length === 0) return ''
-          
+
           const date = new Date(dates[params[0].dataIndex]).toLocaleDateString('zh-CN')
           let tooltip = `<div><strong>${date}</strong></div>`
-          
+
           params.forEach((param: any) => {
             if (!isNaN(param.value)) {
               tooltip += `<div style="color: ${param.color}">
@@ -270,21 +278,26 @@ const TechnicalIndicatorsChart: React.FC<TechnicalIndicatorsChartProps> = ({
               </div>`
             }
           })
-          
+
           return tooltip
-        }
+        },
       },
       legend: {
         data: series.map(s => s.name),
         top: 30,
-        type: 'scroll'
+        type: 'scroll',
       },
       grid: {
         left: '10%',
-        right: enabledIndicators.RSI && enabledIndicators.MACD ? '15%' : enabledIndicators.RSI || enabledIndicators.MACD ? '10%' : '4%',
+        right:
+          enabledIndicators.RSI && enabledIndicators.MACD
+            ? '15%'
+            : enabledIndicators.RSI || enabledIndicators.MACD
+              ? '10%'
+              : '4%',
         bottom: '10%',
         top: '15%',
-        containLabel: true
+        containLabel: true,
       },
       xAxis: {
         type: 'category',
@@ -293,10 +306,10 @@ const TechnicalIndicatorsChart: React.FC<TechnicalIndicatorsChartProps> = ({
           formatter: (value: string) => {
             return new Date(value).toLocaleDateString('zh-CN', {
               month: 'short',
-              day: 'numeric'
+              day: 'numeric',
             })
-          }
-        }
+          },
+        },
       },
       yAxis: yAxes,
       series,
@@ -304,24 +317,26 @@ const TechnicalIndicatorsChart: React.FC<TechnicalIndicatorsChartProps> = ({
         {
           type: 'inside',
           start: 70,
-          end: 100
+          end: 100,
         },
         {
           start: 70,
           end: 100,
           height: 30,
-          bottom: 20
-        }
-      ]
+          bottom: 20,
+        },
+      ],
     }
   }, [fundData, fund, enabledIndicators])
 
   return (
-    <Card 
+    <Card
       className={`card ${className}`}
       title={
         <div className="flex items-center justify-between">
-          <Title level={4} className="mb-0">技术指标分析</Title>
+          <Title level={4} className="mb-0">
+            技术指标分析
+          </Title>
           <Space>
             <Text className="text-sm text-gray-500">时间范围:</Text>
             <Select
@@ -350,7 +365,7 @@ const TechnicalIndicatorsChart: React.FC<TechnicalIndicatorsChartProps> = ({
                 <Switch
                   size="small"
                   checked={enabledIndicators.MA}
-                  onChange={(checked) => handleIndicatorToggle('MA', checked)}
+                  onChange={checked => handleIndicatorToggle('MA', checked)}
                 />
                 <Text className="text-sm">移动平均线 (MA)</Text>
               </Space>
@@ -360,7 +375,7 @@ const TechnicalIndicatorsChart: React.FC<TechnicalIndicatorsChartProps> = ({
                 <Switch
                   size="small"
                   checked={enabledIndicators.RSI}
-                  onChange={(checked) => handleIndicatorToggle('RSI', checked)}
+                  onChange={checked => handleIndicatorToggle('RSI', checked)}
                 />
                 <Text className="text-sm">相对强弱指数 (RSI)</Text>
               </Space>
@@ -370,7 +385,7 @@ const TechnicalIndicatorsChart: React.FC<TechnicalIndicatorsChartProps> = ({
                 <Switch
                   size="small"
                   checked={enabledIndicators.MACD}
-                  onChange={(checked) => handleIndicatorToggle('MACD', checked)}
+                  onChange={checked => handleIndicatorToggle('MACD', checked)}
                 />
                 <Text className="text-sm">MACD</Text>
               </Space>
@@ -391,7 +406,7 @@ const TechnicalIndicatorsChart: React.FC<TechnicalIndicatorsChartProps> = ({
               color: '#2D6DF6',
               textColor: '#666',
               maskColor: 'rgba(255, 255, 255, 0.8)',
-              zlevel: 0
+              zlevel: 0,
             }}
           />
         </div>

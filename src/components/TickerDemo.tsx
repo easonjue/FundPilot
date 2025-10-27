@@ -1,21 +1,19 @@
-import React from 'react'
 import { Card, Space, Typography, Divider } from 'antd'
-import WorldClock from './WorldClock'
+import React from 'react'
 import MarketTicker from './MarketTicker'
+import WorldClock from './WorldClock'
 import { useI18n } from '@/hooks/useI18n'
 
 const { Title, Text } = Typography
 
 const TickerDemo: React.FC = () => {
-  const { t } = useI18n()
+  const { t: _t } = useI18n()
 
   return (
     <div className="p-6 max-w-6xl mx-auto space-y-8">
       <div className="text-center mb-8">
         <Title level={1}>金融信息展示系统演示</Title>
-        <Text className="text-lg text-gray-600">
-          世界时钟 + 市场滚动条 + 新闻资讯
-        </Text>
+        <Text className="text-lg text-gray-600">世界时钟 + 市场滚动条 + 新闻资讯</Text>
       </div>
 
       {/* 世界时钟完整模式 */}
@@ -44,7 +42,7 @@ const TickerDemo: React.FC = () => {
               <li>渐变边缘遮罩效果</li>
             </ul>
           </div>
-          
+
           <div className="relative">
             <MarketTicker height={100} speed={40} showNews={true} />
           </div>
@@ -64,7 +62,7 @@ const TickerDemo: React.FC = () => {
               <li>• 响应式设计</li>
             </ul>
           </div>
-          
+
           <div>
             <Title level={4}>📈 市场滚动条</Title>
             <ul className="space-y-2">

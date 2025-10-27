@@ -1,9 +1,6 @@
-import React, { useMemo } from 'react'
+import { InfoCircleOutlined } from '@ant-design/icons'
 import { Card, Row, Col, Statistic, Typography, Progress, Space, Tooltip, Select } from 'antd'
-import { 
-
-  InfoCircleOutlined 
-} from '@ant-design/icons'
+import React, { useMemo } from 'react'
 import type { Fund, FundDataPoint, TimeRange } from '@/types'
 
 const { Title, Text } = Typography
@@ -47,13 +44,13 @@ const calculatePerformanceMetrics = (data: FundDataPoint[]): PerformanceData => 
       maxDrawdown: 0,
       beta: 0,
       winRate: 0,
-      calmarRatio: 0
+      calmarRatio: 0,
     }
   }
 
   const prices = data.map(d => d.value)
   const returns = []
-  
+
   // Calculate daily returns
   for (let i = 1; i < prices.length; i++) {
     returns.push((prices[i] - prices[i - 1]) / prices[i - 1])
@@ -79,7 +76,7 @@ const calculatePerformanceMetrics = (data: FundDataPoint[]): PerformanceData => 
   // Maximum drawdown
   let maxDrawdown = 0
   let peak = prices[0]
-  
+
   for (let i = 1; i < prices.length; i++) {
     if (prices[i] > peak) {
       peak = prices[i]
@@ -108,16 +105,16 @@ const calculatePerformanceMetrics = (data: FundDataPoint[]): PerformanceData => 
     maxDrawdown,
     beta,
     winRate,
-    calmarRatio
+    calmarRatio,
   }
 }
 
 const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({
-  fund,
+  fund: _fund,
   fundData,
   timeRange,
   onTimeRangeChange,
-  className = ''
+  className = '',
 }) => {
   const metrics = useMemo(() => {
     return calculatePerformanceMetrics(fundData)
@@ -145,11 +142,13 @@ const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({
   }
 
   return (
-    <Card 
+    <Card
       className={`card ${className}`}
       title={
         <div className="flex items-center justify-between">
-          <Title level={4} className="mb-0">性能指标</Title>
+          <Title level={4} className="mb-0">
+            性能指标
+          </Title>
           <Space>
             <Text className="text-sm text-gray-500">统计周期:</Text>
             <Select
@@ -179,7 +178,7 @@ const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({
                 value={metrics.totalReturn}
                 precision={2}
                 valueStyle={{ color: getReturnColor(metrics.totalReturn) }}
-                formatter={(value) => formatPercentage(value as number)}
+                formatter={value => formatPercentage(value as number)}
                 prefix={metrics.totalReturn >= 0 ? <InfoCircleOutlined /> : <InfoCircleOutlined />}
               />
             </Col>
@@ -189,8 +188,10 @@ const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({
                 value={metrics.annualizedReturn}
                 precision={2}
                 valueStyle={{ color: getReturnColor(metrics.annualizedReturn) }}
-                formatter={(value) => formatPercentage(value as number)}
-                prefix={metrics.annualizedReturn >= 0 ? <InfoCircleOutlined /> : <InfoCircleOutlined />}
+                formatter={value => formatPercentage(value as number)}
+                prefix={
+                  metrics.annualizedReturn >= 0 ? <InfoCircleOutlined /> : <InfoCircleOutlined />
+                }
               />
             </Col>
             <Col xs={12} sm={8}>
@@ -204,9 +205,7 @@ const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({
                     showInfo={false}
                     className="flex-1"
                   />
-                  <Text className="text-sm font-medium">
-                    {formatPercentage(metrics.winRate)}
-                  </Text>
+                  <Text className="text-sm font-medium">{formatPercentage(metrics.winRate)}</Text>
                 </div>
               </div>
             </Col>
@@ -229,11 +228,11 @@ const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({
                   <Text className="text-lg font-medium">
                     {formatPercentage(metrics.volatility)}
                   </Text>
-                  <Text 
+                  <Text
                     className="text-xs px-2 py-1 rounded"
-                    style={{ 
+                    style={{
                       backgroundColor: getRiskLevel(metrics.volatility).color + '20',
-                      color: getRiskLevel(metrics.volatility).color 
+                      color: getRiskLevel(metrics.volatility).color,
                     }}
                   >
                     {getRiskLevel(metrics.volatility).level}风险
@@ -262,9 +261,7 @@ const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({
                     <InfoCircleOutlined className="text-xs text-gray-400" />
                   </Tooltip>
                 </div>
-                <Text className="text-lg font-medium">
-                  {metrics.beta.toFixed(2)}
-                </Text>
+                <Text className="text-lg font-medium">{metrics.beta.toFixed(2)}</Text>
               </div>
             </Col>
           </Row>
@@ -283,14 +280,12 @@ const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({
                   </Tooltip>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <Text className="text-lg font-medium">
-                    {metrics.sharpeRatio.toFixed(2)}
-                  </Text>
-                  <Text 
+                  <Text className="text-lg font-medium">{metrics.sharpeRatio.toFixed(2)}</Text>
+                  <Text
                     className="text-xs px-2 py-1 rounded"
-                    style={{ 
+                    style={{
                       backgroundColor: getSharpeRating(metrics.sharpeRatio).color + '20',
-                      color: getSharpeRating(metrics.sharpeRatio).color 
+                      color: getSharpeRating(metrics.sharpeRatio).color,
                     }}
                   >
                     {getSharpeRating(metrics.sharpeRatio).rating}
@@ -306,9 +301,7 @@ const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({
                     <InfoCircleOutlined className="text-xs text-gray-400" />
                   </Tooltip>
                 </div>
-                <Text className="text-lg font-medium">
-                  {metrics.calmarRatio.toFixed(2)}
-                </Text>
+                <Text className="text-lg font-medium">{metrics.calmarRatio.toFixed(2)}</Text>
               </div>
             </Col>
             <Col xs={12} sm={8}>
@@ -324,7 +317,7 @@ const PerformanceMetrics: React.FC<PerformanceMetricsProps> = ({
                       '50%': '#faad14',
                       '100%': '#52c41a',
                     }}
-                    format={(percent) => `${Math.round(percent || 0)}`}
+                    format={percent => `${Math.round(percent || 0)}`}
                   />
                   <div>
                     <div className="text-xs text-gray-500">基于风险调整收益</div>

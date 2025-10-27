@@ -1,6 +1,3 @@
-import React from 'react'
-import { Layout, Menu } from 'antd'
-import { useNavigate, useLocation } from 'react-router-dom'
 import {
   DashboardOutlined,
   LineChartOutlined,
@@ -8,7 +5,10 @@ import {
   BellOutlined,
   SettingOutlined,
 } from '@ant-design/icons'
+import { Layout, Menu } from 'antd'
 import type { MenuProps } from 'antd'
+import React from 'react'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 const { Sider } = Layout
 
@@ -79,7 +79,7 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed, onCollapse }) => {
           )}
         </div>
       </div>
-      
+
       <Menu
         mode="inline"
         selectedKeys={[location.pathname]}

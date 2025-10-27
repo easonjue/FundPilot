@@ -1,6 +1,6 @@
-import React from 'react'
-import { Card, Typography, Space, Button, Empty, Skeleton } from 'antd'
 import { ReloadOutlined, RobotOutlined } from '@ant-design/icons'
+import { Button, Empty, Skeleton, Typography } from 'antd'
+import React from 'react'
 import AIRecommendationCard from './AIRecommendationCard'
 import ErrorDisplay from './ErrorDisplay'
 import type { AIPrediction } from '@/types'
@@ -22,7 +22,7 @@ const AIRecommendationsPanel: React.FC<AIRecommendationsPanelProps> = ({
   error,
   onRefresh,
   onActionClick,
-  className = ''
+  className = '',
 }) => {
   const handleActionClick = (fundCode: string, action: 'buy' | 'sell' | 'hold') => {
     onActionClick?.(fundCode, action)
@@ -30,13 +30,7 @@ const AIRecommendationsPanel: React.FC<AIRecommendationsPanelProps> = ({
 
   const renderContent = () => {
     if (error) {
-      return (
-        <ErrorDisplay 
-          error={error} 
-          onRetry={onRefresh}
-          size="small"
-        />
-      )
+      return <ErrorDisplay error={error} onRetry={onRefresh} size="small" />
     }
 
     if (loading) {
@@ -57,9 +51,7 @@ const AIRecommendationsPanel: React.FC<AIRecommendationsPanelProps> = ({
             <div>
               <Text className="text-gray-500">暂无AI推荐</Text>
               <br />
-              <Text className="text-xs text-gray-400">
-                系统正在分析市场数据，请稍后查看
-              </Text>
+              <Text className="text-xs text-gray-400">系统正在分析市场数据，请稍后查看</Text>
             </div>
           }
         />
@@ -68,12 +60,12 @@ const AIRecommendationsPanel: React.FC<AIRecommendationsPanelProps> = ({
 
     return (
       <div className="space-y-4">
-        {predictions.map((prediction) => (
+        {predictions.map(prediction => (
           <AIRecommendationCard
             key={prediction.fundCode}
             prediction={prediction}
             fundName={prediction.fundName}
-            onActionClick={(action) => handleActionClick(prediction.fundCode, action)}
+            onActionClick={action => handleActionClick(prediction.fundCode, action)}
           />
         ))}
       </div>
@@ -117,9 +109,7 @@ const AIRecommendationsPanel: React.FC<AIRecommendationsPanelProps> = ({
       </div>
 
       {/* Content */}
-      <div className="p-6">
-        {renderContent()}
-      </div>
+      <div className="p-6">{renderContent()}</div>
     </div>
   )
 }

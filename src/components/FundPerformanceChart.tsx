@@ -1,7 +1,7 @@
-import React, { useMemo } from 'react'
-import { Card, Select, Space, Button, Typography } from 'antd'
-import ReactECharts from 'echarts-for-react'
+import { Select, Typography } from 'antd'
 import type { EChartsOption } from 'echarts'
+import ReactECharts from 'echarts-for-react'
+import React, { useMemo } from 'react'
 import type { Fund, FundDataPoint, TimeRange } from '@/types'
 
 const { Title, Text } = Typography
@@ -47,13 +47,13 @@ const FundPerformanceChart: React.FC<FundPerformanceChartProps> = ({
   loading = false,
   onFundSelectionChange,
   onTimeRangeChange,
-  className = ''
+  className = '',
 }) => {
   const chartOption: EChartsOption = useMemo(() => {
     const series = selectedFunds.map((fundCode, index) => {
       const fund = funds.find(f => f.code === fundCode)
       const data = fundData[fundCode] || []
-      
+
       return {
         name: fund?.name || fundCode,
         type: 'line',
@@ -62,11 +62,11 @@ const FundPerformanceChart: React.FC<FundPerformanceChartProps> = ({
         symbol: 'none',
         lineStyle: {
           width: 2,
-          color: colors[index % colors.length]
+          color: colors[index % colors.length],
         },
         itemStyle: {
-          color: colors[index % colors.length]
-        }
+          color: colors[index % colors.length],
+        },
       }
     })
 
@@ -76,32 +76,32 @@ const FundPerformanceChart: React.FC<FundPerformanceChartProps> = ({
         left: 'left',
         textStyle: {
           fontSize: 16,
-          fontWeight: 'bold'
-        }
+          fontWeight: 'bold',
+        },
       },
       tooltip: {
         trigger: 'axis',
         axisPointer: {
           type: 'cross',
           label: {
-            backgroundColor: '#6a7985'
-          }
+            backgroundColor: '#6a7985',
+          },
         },
         formatter: (params: any) => {
           if (!Array.isArray(params)) return ''
-          
+
           const date = new Date(params[0].value[0]).toLocaleDateString('zh-CN')
           let tooltip = `<div><strong>${date}</strong></div>`
-          
+
           params.forEach((param: any) => {
             const value = param.value[1].toFixed(4)
             tooltip += `<div style="color: ${param.color}">
               ${param.seriesName}: ${value}
             </div>`
           })
-          
+
           return tooltip
-        }
+        },
       },
       legend: {
         data: selectedFunds.map(fundCode => {
@@ -109,69 +109,69 @@ const FundPerformanceChart: React.FC<FundPerformanceChartProps> = ({
           return fund?.name || fundCode
         }),
         top: 30,
-        type: 'scroll'
+        type: 'scroll',
       },
       grid: {
         left: '3%',
         right: '4%',
         bottom: '3%',
         top: '15%',
-        containLabel: true
+        containLabel: true,
       },
       xAxis: {
         type: 'time',
         boundaryGap: false,
         axisLine: {
           lineStyle: {
-            color: '#d9d9d9'
-          }
+            color: '#d9d9d9',
+          },
         },
         axisLabel: {
           formatter: (value: number) => {
             return new Date(value).toLocaleDateString('zh-CN', {
               month: 'short',
-              day: 'numeric'
+              day: 'numeric',
             })
-          }
-        }
+          },
+        },
       },
       yAxis: {
         type: 'value',
         axisLine: {
           lineStyle: {
-            color: '#d9d9d9'
-          }
+            color: '#d9d9d9',
+          },
         },
         splitLine: {
           lineStyle: {
             color: '#f0f0f0',
-            type: 'dashed'
-          }
+            type: 'dashed',
+          },
         },
         axisLabel: {
-          formatter: (value: number) => value.toFixed(4)
-        }
+          formatter: (value: number) => value.toFixed(4),
+        },
       },
       series,
       dataZoom: [
         {
           type: 'inside',
           start: 0,
-          end: 100
+          end: 100,
         },
         {
           start: 0,
           end: 100,
           height: 30,
-          bottom: 10
-        }
-      ]
+          bottom: 10,
+        },
+      ],
     }
   }, [selectedFunds, funds, fundData])
 
   const fundOptions = funds.map(fund => ({
     label: `${fund.name} (${fund.code})`,
-    value: fund.code
+    value: fund.code,
   }))
 
   return (
@@ -183,9 +183,7 @@ const FundPerformanceChart: React.FC<FundPerformanceChartProps> = ({
             <Title level={4} className="mb-0 text-gray-900 dark:text-gray-100">
               基金走势对比
             </Title>
-            <Text className="text-gray-500 dark:text-gray-400">
-              多基金净值走势对比分析
-            </Text>
+            <Text className="text-gray-500 dark:text-gray-400">多基金净值走势对比分析</Text>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             <div className="flex items-center space-x-2">
@@ -230,7 +228,7 @@ const FundPerformanceChart: React.FC<FundPerformanceChartProps> = ({
               color: '#2D6DF6',
               textColor: '#666',
               maskColor: 'rgba(255, 255, 255, 0.8)',
-              zlevel: 0
+              zlevel: 0,
             }}
           />
         </div>

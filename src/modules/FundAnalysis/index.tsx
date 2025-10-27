@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react'
-import { Row, Col, Typography } from 'antd'
 import { FundOutlined } from '@ant-design/icons'
+import { Typography } from 'antd'
+import React, { useState, useEffect } from 'react'
 import FundSelectionPanel from '@/components/FundSelectionPanel'
+import PerformanceMetrics from '@/components/PerformanceMetrics'
 import TechnicalIndicatorsChart from '@/components/TechnicalIndicatorsChart'
 import TradingSignalsChart from '@/components/TradingSignalsChart'
-import PerformanceMetrics from '@/components/PerformanceMetrics'
 import { useSettingsStore } from '@/stores'
 import type { Fund, FundDataPoint, TimeRange, TradingSignal } from '@/types'
 
@@ -19,7 +19,7 @@ const mockFunds: Fund[] = [
     currentValue: 2.1234,
     dailyChange: 0.0123,
     dailyChangePercent: 0.58,
-    lastUpdate: new Date()
+    lastUpdate: new Date(),
   },
   {
     code: '320007',
@@ -28,7 +28,7 @@ const mockFunds: Fund[] = [
     currentValue: 1.8765,
     dailyChange: -0.0087,
     dailyChangePercent: -0.46,
-    lastUpdate: new Date()
+    lastUpdate: new Date(),
   },
   {
     code: '161725',
@@ -37,7 +37,7 @@ const mockFunds: Fund[] = [
     currentValue: 0.9876,
     dailyChange: 0.0034,
     dailyChangePercent: 0.35,
-    lastUpdate: new Date()
+    lastUpdate: new Date(),
   },
   {
     code: '110022',
@@ -46,7 +46,7 @@ const mockFunds: Fund[] = [
     currentValue: 3.2145,
     dailyChange: 0.0234,
     dailyChangePercent: 0.73,
-    lastUpdate: new Date()
+    lastUpdate: new Date(),
   },
   {
     code: '000001',
@@ -55,7 +55,7 @@ const mockFunds: Fund[] = [
     currentValue: 1.5432,
     dailyChange: -0.0012,
     dailyChangePercent: -0.08,
-    lastUpdate: new Date()
+    lastUpdate: new Date(),
   },
   {
     code: '519066',
@@ -64,33 +64,33 @@ const mockFunds: Fund[] = [
     currentValue: 2.8765,
     dailyChange: 0.0156,
     dailyChangePercent: 0.54,
-    lastUpdate: new Date()
-  }
+    lastUpdate: new Date(),
+  },
 ]
 
 // Generate mock historical data for analysis
 const generateAnalysisFundData = (fundCode: string, days: number = 90): FundDataPoint[] => {
   const data: FundDataPoint[] = []
   const baseValue = Math.random() * 2 + 1 // Random base value between 1-3
-  
+
   for (let i = days; i >= 0; i--) {
     const date = new Date()
     date.setDate(date.getDate() - i)
-    
+
     // More complex price movement simulation
     const trend = Math.sin(i * 0.02) * 0.3 // Long-term trend
     const noise = (Math.random() - 0.5) * 0.1 // Random noise
     const momentum = Math.sin(i * 0.1) * 0.15 // Medium-term momentum
-    
+
     const value = baseValue + trend + noise + momentum
-    
+
     data.push({
       date,
       value: Math.max(0.1, value), // Ensure positive value
-      volume: Math.floor(Math.random() * 1000000)
+      volume: Math.floor(Math.random() * 1000000),
     })
   }
-  
+
   return data
 }
 
@@ -103,10 +103,19 @@ const FundAnalysis: React.FC = () => {
   // Generate fund data when selected fund or time range changes
   useEffect(() => {
     if (selectedFund) {
-      const days = timeRange === '1M' ? 30 : timeRange === '3M' ? 90 : 
-                   timeRange === '6M' ? 180 : timeRange === '1Y' ? 365 : 
-                   timeRange === 'ALL' ? 730 : 90
-      
+      const days =
+        timeRange === '1M'
+          ? 30
+          : timeRange === '3M'
+            ? 90
+            : timeRange === '6M'
+              ? 180
+              : timeRange === '1Y'
+                ? 365
+                : timeRange === 'ALL'
+                  ? 730
+                  : 90
+
       const data = generateAnalysisFundData(selectedFund.code, days)
       setFundData(data)
     }
@@ -185,7 +194,7 @@ const FundAnalysis: React.FC = () => {
               onIndicatorToggle={handleIndicatorToggle}
             />
           </div>
-          
+
           {/* Trading Signals Chart */}
           <div className="bg-white/70 dark:bg-gray-800/70 backdrop-blur-xl rounded-3xl shadow-lg border border-white/20 dark:border-gray-700/20 overflow-hidden">
             <TradingSignalsChart

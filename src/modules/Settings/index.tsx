@@ -1,5 +1,5 @@
-import React from 'react'
 import { Card, Typography } from 'antd'
+import React from 'react'
 
 const { Title } = Typography
 
@@ -9,7 +9,7 @@ const Settings: React.FC = () => {
       <Title level={2} className="mb-6">
         系统设置
       </Title>
-      
+
       <Card className="card">
         <div className="h-96 flex items-center justify-center text-gray-500">
           系统设置模块将在后续任务中实现

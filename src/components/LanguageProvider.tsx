@@ -14,7 +14,7 @@ const LanguageProvider: React.FC<LanguageProviderProps> = ({ children }) => {
       // 如果没有保存的语言设置，尝试从浏览器检测
       if (!currentLanguage) {
         const browserLanguage = navigator.language || navigator.languages[0]
-        
+
         // 映射浏览器语言到支持的语言
         if (browserLanguage.startsWith('zh')) {
           setLanguage('zh-CN')

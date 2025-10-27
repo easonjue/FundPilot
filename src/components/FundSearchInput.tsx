@@ -1,7 +1,7 @@
-import React, { useState, useCallback, useMemo } from 'react'
-import { AutoComplete, Input, Typography, Space, Tag, Avatar } from 'antd'
 import { SearchOutlined, FundOutlined } from '@ant-design/icons'
+import { AutoComplete, Avatar, Input, Tag, Typography } from 'antd'
 import { debounce } from 'lodash-es'
+import React, { useState, useCallback, useMemo } from 'react'
 import type { Fund } from '@/types'
 
 const { Text } = Typography
@@ -27,7 +27,7 @@ const FundSearchInput: React.FC<FundSearchInputProps> = ({
   placeholder = '搜索基金名称或代码',
   className = '',
   size = 'middle',
-  loading = false
+  loading = false,
 }) => {
   const [searchValue, setSearchValue] = useState('')
   const [options, setOptions] = useState<SearchOption[]>([])
@@ -54,71 +54,65 @@ const FundSearchInput: React.FC<FundSearchInputProps> = ({
     const sign = changePercent >= 0 ? '+' : ''
     return (
       <Text style={{ color, fontSize: '12px' }}>
-        {sign}{changePercent.toFixed(2)}%
+        {sign}
+        {changePercent.toFixed(2)}%
       </Text>
     )
   }
 
   // Search function
-  const searchFunds = useCallback((query: string) => {
-    if (!query.trim()) {
-      setOptions([])
-      return
-    }
-
-    const searchQuery = query.toLowerCase()
-    const filteredFunds = funds.filter(fund => 
-      fund.name.toLowerCase().includes(searchQuery) ||
-      fund.code.toLowerCase().includes(searchQuery)
-    ).slice(0, 10) // Limit to 10 results
-
-    const searchOptions: SearchOption[] = filteredFunds.map(fund => {
-      const typeInfo = getFundTypeInfo(fund.type)
-      
-      return {
-        value: `${fund.name} (${fund.code})`,
-        fund,
-        label: (
-          <div className="flex items-center justify-between py-2">
-            <div className="flex items-center space-x-3 flex-1">
-              <Avatar 
-                size="small" 
-                icon={<FundOutlined />} 
-                className="bg-primary-500"
-              />
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center space-x-2">
-                  <Text className="font-medium truncate">
-                    {fund.name}
-                  </Text>
-                  <Tag color={typeInfo.color} size="small">
-                    {typeInfo.label}
-                  </Tag>
-                </div>
-                <Text className="text-xs text-gray-500">
-                  {fund.code}
-                </Text>
-              </div>
-            </div>
-            <div className="text-right ml-2">
-              <div className="text-sm font-medium">
-                {fund.currentValue.toFixed(4)}
-              </div>
-              {formatChangePercent(fund.dailyChangePercent)}
-            </div>
-          </div>
-        )
+  const searchFunds = useCallback(
+    (query: string) => {
+      if (!query.trim()) {
+        setOptions([])
+        return
       }
-    })
 
-    setOptions(searchOptions)
-  }, [funds])
+      const searchQuery = query.toLowerCase()
+      const filteredFunds = funds
+        .filter(
+          fund =>
+            fund.name.toLowerCase().includes(searchQuery) ||
+            fund.code.toLowerCase().includes(searchQuery)
+        )
+        .slice(0, 10) // Limit to 10 results
+
+      const searchOptions: SearchOption[] = filteredFunds.map(fund => {
+        const typeInfo = getFundTypeInfo(fund.type)
+
+        return {
+          value: `${fund.name} (${fund.code})`,
+          fund,
+          label: (
+            <div className="flex items-center justify-between py-2">
+              <div className="flex items-center space-x-3 flex-1">
+                <Avatar size="small" icon={<FundOutlined />} className="bg-primary-500" />
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center space-x-2">
+                    <Text className="font-medium truncate">{fund.name}</Text>
+                    <Tag color={typeInfo.color} size="small">
+                      {typeInfo.label}
+                    </Tag>
+                  </div>
+                  <Text className="text-xs text-gray-500">{fund.code}</Text>
+                </div>
+              </div>
+              <div className="text-right ml-2">
+                <div className="text-sm font-medium">{fund.currentValue.toFixed(4)}</div>
+                {formatChangePercent(fund.dailyChangePercent)}
+              </div>
+            </div>
+          ),
+        }
+      })
+
+      setOptions(searchOptions)
+    },
+    [funds]
+  )
 
   // Debounced search
-  const debouncedSearch = useMemo(
-    () => debounce(searchFunds, 300),
-    [searchFunds]
-  )
+  const debouncedSearch = useMemo(() => debounce(searchFunds, 300), [searchFunds])
 
   const handleSearch = (value: string) => {
     setSearchValue(value)
@@ -152,17 +146,12 @@ const FundSearchInput: React.FC<FundSearchInputProps> = ({
       notFoundContent={
         searchValue ? (
           <div className="text-center py-4">
-            <Text className="text-gray-500">
-              未找到匹配的基金
-            </Text>
+            <Text className="text-gray-500">未找到匹配的基金</Text>
           </div>
         ) : null
       }
     >
-      <Input
-        prefix={<SearchOutlined className="text-gray-400" />}
-        loading={loading}
-      />
+      <Input prefix={<SearchOutlined className="text-gray-400" />} loading={loading} />
     </AutoComplete>
   )
 }

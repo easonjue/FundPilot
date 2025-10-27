@@ -1,5 +1,3 @@
-import React from 'react'
-import { Typography, Avatar, Button, Badge } from 'antd'
 import {
   DashboardOutlined,
   LineChartOutlined,
@@ -7,13 +5,15 @@ import {
   BellOutlined,
   SettingOutlined,
   UserOutlined,
-  MenuOutlined
+  MenuOutlined,
 } from '@ant-design/icons'
+import { Typography, Avatar, Button, Badge } from 'antd'
+import React from 'react'
 import { useNavigate, useLocation } from 'react-router-dom'
-import { useThemeStore } from '@/stores/themeStore'
 import styles from './TabletDashboard.module.less'
+import { useThemeStore } from '@/stores/themeStore'
 
-const { Title, Text } = Typography
+const { Title } = Typography
 
 interface TabletDashboardProps {
   children: React.ReactNode
@@ -31,11 +31,13 @@ const TabletDashboard: React.FC<TabletDashboardProps> = ({ children, orientation
     { key: 'analysis', icon: LineChartOutlined, label: '分析', path: '/analysis' },
     { key: 'strategy', icon: ThunderboltOutlined, label: '策略', path: '/strategy' },
     { key: 'notifications', icon: BellOutlined, label: '通知', path: '/notifications' },
-    { key: 'settings', icon: SettingOutlined, label: '设置', path: '/settings' }
+    { key: 'settings', icon: SettingOutlined, label: '设置', path: '/settings' },
   ]
 
   return (
-    <div className={`${styles.tablet} ${styles[orientation]} ${isDark ? styles.dark : styles.light}`}>
+    <div
+      className={`${styles.tablet} ${styles[orientation]} ${isDark ? styles.dark : styles.light}`}
+    >
       {/* 顶部导航栏 */}
       <div className={styles.topBar}>
         <div className={styles.leftSection}>
@@ -47,13 +49,15 @@ const TabletDashboard: React.FC<TabletDashboardProps> = ({ children, orientation
           />
           <div className={styles.logo}>
             <span className={styles.logoIcon}>⚡</span>
-            <Title level={4} className={styles.logoText}>FundPilot</Title>
+            <Title level={4} className={styles.logoText}>
+              FundPilot
+            </Title>
           </div>
         </div>
 
         <div className={styles.centerSection}>
           <div className={styles.navTabs}>
-            {navItems.map((item) => {
+            {navItems.map(item => {
               const isActive = location.pathname === item.path
               const IconComponent = item.icon
               return (
@@ -72,24 +76,14 @@ const TabletDashboard: React.FC<TabletDashboardProps> = ({ children, orientation
 
         <div className={styles.rightSection}>
           <Badge count={3} size="small">
-            <Button
-              type="text"
-              icon={<BellOutlined />}
-              className={styles.actionButton}
-            />
+            <Button type="text" icon={<BellOutlined />} className={styles.actionButton} />
           </Badge>
-          <Avatar
-            size={36}
-            icon={<UserOutlined />}
-            className={styles.avatar}
-          />
+          <Avatar size={36} icon={<UserOutlined />} className={styles.avatar} />
         </div>
       </div>
 
       {/* 主内容区域 */}
-      <div className={styles.mainContent}>
-        {children}
-      </div>
+      <div className={styles.mainContent}>{children}</div>
     </div>
   )
 }

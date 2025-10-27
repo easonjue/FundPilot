@@ -1,11 +1,11 @@
-import React from 'react'
-import { Result, Button, Alert, Typography } from 'antd'
-import { 
-  ExclamationCircleOutlined, 
-  ReloadOutlined, 
+import {
+  ExclamationCircleOutlined,
+  ReloadOutlined,
   WifiOutlined,
-  WarningOutlined 
+  WarningOutlined,
 } from '@ant-design/icons'
+import { Result, Button, Alert, Typography } from 'antd'
+import React from 'react'
 import type { APIError } from '@/types'
 
 const { Text, Paragraph } = Typography
@@ -23,7 +23,7 @@ const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
   onRetry,
   showDetails = false,
   className = '',
-  size = 'default'
+  size = 'default',
 }) => {
   // Parse error object
   const getErrorInfo = () => {
@@ -32,19 +32,19 @@ const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
         code: 'UNKNOWN_ERROR',
         message: error,
         details: null,
-        timestamp: new Date()
+        timestamp: new Date(),
       }
     }
-    
+
     if (error instanceof Error) {
       return {
         code: 'CLIENT_ERROR',
         message: error.message,
         details: error.stack,
-        timestamp: new Date()
+        timestamp: new Date(),
       }
     }
-    
+
     return error as APIError
   }
 
@@ -58,49 +58,49 @@ const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
           icon: <WifiOutlined />,
           status: 'warning' as const,
           title: '网络连接失败',
-          description: '请检查网络连接后重试'
+          description: '请检查网络连接后重试',
         }
       case '401':
         return {
           icon: <ExclamationCircleOutlined />,
           status: 'error' as const,
           title: '认证失败',
-          description: '请重新登录'
+          description: '请重新登录',
         }
       case '403':
         return {
           icon: <WarningOutlined />,
           status: 'warning' as const,
           title: '访问被拒绝',
-          description: '您没有权限访问此资源'
+          description: '您没有权限访问此资源',
         }
       case '404':
         return {
           icon: <ExclamationCircleOutlined />,
           status: 'info' as const,
           title: '资源不存在',
-          description: '请求的资源未找到'
+          description: '请求的资源未找到',
         }
       case '429':
         return {
           icon: <WarningOutlined />,
           status: 'warning' as const,
           title: '请求过于频繁',
-          description: '请稍后再试'
+          description: '请稍后再试',
         }
       case '500':
         return {
           icon: <ExclamationCircleOutlined />,
           status: 'error' as const,
           title: '服务器错误',
-          description: '服务器遇到问题，请稍后再试'
+          description: '服务器遇到问题，请稍后再试',
         }
       default:
         return {
           icon: <ExclamationCircleOutlined />,
           status: 'error' as const,
           title: '操作失败',
-          description: errorInfo.message || '发生未知错误'
+          description: errorInfo.message || '发生未知错误',
         }
     }
   }
@@ -136,18 +136,13 @@ const ErrorDisplay: React.FC<ErrorDisplayProps> = ({
         subTitle={errorStyle.description}
         extra={[
           onRetry && (
-            <Button 
-              key="retry" 
-              type="primary" 
-              onClick={onRetry}
-              icon={<ReloadOutlined />}
-            >
+            <Button key="retry" type="primary" onClick={onRetry} icon={<ReloadOutlined />}>
               重试
             </Button>
           ),
           <Button key="back" onClick={() => window.history.back()}>
             返回
-          </Button>
+          </Button>,
         ].filter(Boolean)}
       >
         {showDetails && errorInfo.details && (
