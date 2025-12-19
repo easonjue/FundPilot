@@ -1,2 +1,0 @@
-import{j as s}from"./index-B1UeDy4O.js";import{T as e,C as r}from"./antd-ZHbk-s-w.js";import"./vendor-Bzgz95E1.js";import"./router-CZaN6CeF.js";const{Title:t}=e,m=()=>s.jsxs("div",{className:"space-y-6",children:[s.jsx(t,{level:2,className:"mb-6",children:"系统设置"}),s.jsx(r,{className:"card",children:s.jsx("div",{className:"h-96 flex items-center justify-center text-gray-500",children:"系统设置模块将在后续任务中实现"})})]});export{m as default};
-//# sourceMappingURL=index-DtsKMLaz.js.map
