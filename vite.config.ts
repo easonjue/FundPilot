@@ -1,9 +1,12 @@
 import path from 'path'
 import react from '@vitejs/plugin-react'
 import { defineConfig } from 'vite'
-
+const GITHUB_PAGES_DOMAIN = 'easonjue.github.io'
+// 仓库名https://github.com/easonjue/FundPilot.git
+const GITHUB_REPO_NAME = 'FundPilot'
 // https://vitejs.dev/config/
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
+  base: mode === 'production' ? `https://${GITHUB_PAGES_DOMAIN}/${GITHUB_REPO_NAME}/` : '/',
   plugins: [react()],
   css: {
     preprocessorOptions: {
@@ -56,4 +59,4 @@ export default defineConfig({
   //   environment: 'jsdom',
   //   setupFiles: ['./src/test/setup.ts'],
   // },
-})
+}))

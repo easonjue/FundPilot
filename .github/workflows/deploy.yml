@@ -1,0 +1,68 @@
+name: Build and Deploy
+on: [ push ]
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+jobs:
+  build-and-deploy:
+    concurrency: ci-${{ github.ref }}
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout 🛎️
+      uses: actions/checkout@v6
+      with:
+        fetch-depth: 0
+
+    - name: Set up Node.js 🟢
+      uses: actions/setup-node@v4
+      with:
+        node-version: 20
+        # 先不缓存 pnpm（避免查找未安装的 pnpm），后续手动缓存
+        cache: ''
+
+    - name: 校验并安装 pnpm 📦
+      run: |
+        # 1. 校验 pnpm 是否存在（返回 0 则存在，非 0 则安装）
+        if ! command -v pnpm &> /dev/null; then
+          echo "pnpm 未安装，开始安装..."
+          # 官方推荐的安装方式（比 npm install -g 更稳定）
+          curl -fsSL https://get.pnpm.io/install.sh | sh -
+          # 将 pnpm 加入环境变量（关键！否则后续命令找不到 pnpm）
+          echo "$HOME/.local/share/pnpm" >> $GITHUB_PATH
+          echo "$HOME/.pnpm-store" >> $GITHUB_PATH
+        else
+          echo "pnpm 已安装，版本：$(pnpm --version)"
+        fi
+
+    - name: 缓存 pnpm 依赖 🚀
+      uses: actions/cache@v3
+      with:
+        # pnpm 依赖缓存路径（不同系统路径一致）
+        path: ~/.pnpm-store
+        # 缓存密钥（锁文件变化时重新缓存）
+        key: ${{ runner.os }}-pnpm-${{ hashFiles('**/pnpm-lock.yaml') }}
+        # 回退缓存（锁文件未变时复用旧缓存）
+        restore-keys: |
+          ${{ runner.os }}-pnpm-
+
+    - name: 安装项目依赖 🔧
+      run: |
+        # 验证 pnpm 版本（可选，便于调试）
+        pnpm --version
+        # 严格安装依赖
+        pnpm install --frozen-lockfile
+      env:
+        VITE_GITHUB_REPO: ${{ github.event.repository.name }}
+
+    - name: 构建项目 📦
+      run: pnpm run build
+
+    - name: 部署到 GitHub Pages 🚀
+      uses: JamesIves/github-pages-deploy-action@v4
+      with:
+        folder: dist
+        branch: gh-pages
+        clean: true
+        force: true
+        disable-jekyll: true
