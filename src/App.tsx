@@ -76,7 +76,7 @@ const App: FC = () => {
               },
             }}
           >
-            <BrowserRouter>
+            <BrowserRouter basename={import.meta.env.BASE_URL}>
               <AppRouter />
             </BrowserRouter>
           </ConfigProvider>
