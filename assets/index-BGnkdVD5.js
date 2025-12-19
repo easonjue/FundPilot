@@ -1,0 +1,2 @@
+import{j as e}from"./index-B1UeDy4O.js";import{T as s,C as r}from"./antd-ZHbk-s-w.js";import"./vendor-Bzgz95E1.js";import"./router-CZaN6CeF.js";const{Title:t}=s,m=()=>e.jsxs("div",{className:"space-y-6",children:[e.jsx(t,{level:2,className:"mb-6",children:"策略信号"}),e.jsx(r,{className:"card",children:e.jsx("div",{className:"h-96 flex items-center justify-center text-gray-500",children:"策略信号模块将在后续任务中实现"})})]});export{m as default};
+//# sourceMappingURL=index-BGnkdVD5.js.map
