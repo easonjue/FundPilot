@@ -177,7 +177,7 @@ export const pulse = (element: HTMLElement, options: AnimationOptions = {}): Ani
       { opacity: 0.8, transform: 'scale(1.05)' },
       { opacity: 1, transform: 'scale(1)' },
     ],
-    { duration: 2000, iterationCount: 'infinite', ...options }
+    { duration: 2000, iterationCount: Infinity, ...options }
   )
 }
 

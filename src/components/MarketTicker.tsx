@@ -16,7 +16,7 @@ interface MarketTickerProps {
 
 const MarketTicker: React.FC<MarketTickerProps> = ({
   height = 60,
-  _speed = 50,
+  speed = 50,
   showNews = true,
 }) => {
   const { t } = useTranslation()
@@ -178,7 +178,7 @@ const MarketTicker: React.FC<MarketTickerProps> = ({
         <div
           className={styles.tickerContent}
           style={{
-            animationDuration: `${Math.max(mixedContent.length * 3.5 + _speed, 45)}s`,
+            animationDuration: `${Math.max(mixedContent.length * 3.5 + speed, 45)}s`,
           }}
         >
           {mixedContent.map((item, index) =>

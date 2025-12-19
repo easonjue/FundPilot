@@ -21,7 +21,6 @@ const FundSelectionPanel: React.FC<FundSelectionPanelProps> = ({
   selectedFund,
   watchlist,
   onFundSelect,
-  _onAddToWatchlist,
   onRemoveFromWatchlist,
   className = '',
 }) => {

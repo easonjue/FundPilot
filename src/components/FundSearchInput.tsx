@@ -27,7 +27,6 @@ const FundSearchInput: React.FC<FundSearchInputProps> = ({
   placeholder = '搜索基金名称或代码',
   className = '',
   size = 'middle',
-  loading = false,
 }) => {
   const [searchValue, setSearchValue] = useState('')
   const [options, setOptions] = useState<SearchOption[]>([])
@@ -90,9 +89,7 @@ const FundSearchInput: React.FC<FundSearchInputProps> = ({
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center space-x-2">
                     <Text className="font-medium truncate">{fund.name}</Text>
-                    <Tag color={typeInfo.color} size="small">
-                      {typeInfo.label}
-                    </Tag>
+                    <Tag color={typeInfo.color}>{typeInfo.label}</Tag>
                   </div>
                   <Text className="text-xs text-gray-500">{fund.code}</Text>
                 </div>
@@ -151,7 +148,7 @@ const FundSearchInput: React.FC<FundSearchInputProps> = ({
         ) : null
       }
     >
-      <Input prefix={<SearchOutlined className="text-gray-400" />} loading={loading} />
+      <Input prefix={<SearchOutlined className="text-gray-400" />} />
     </AutoComplete>
   )
 }

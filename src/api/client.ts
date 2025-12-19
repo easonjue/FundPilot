@@ -1,5 +1,10 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
+import axios, { AxiosInstance, InternalAxiosRequestConfig, AxiosResponse, AxiosError } from 'axios'
 import type { APIError } from '@/types'
+
+// Extend InternalAxiosRequestConfig to include metadata
+interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
+  metadata?: { startTime: number }
+}
 
 // API configuration
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api'
@@ -16,7 +21,7 @@ const apiClient: AxiosInstance = axios.create({
 
 // Request interceptor
 apiClient.interceptors.request.use(
-  (config: AxiosRequestConfig) => {
+  (config: InternalAxiosRequestConfig): InternalAxiosRequestConfig => {
     // Add auth token if available
     const token = localStorage.getItem('fundpilot_token')
     if (token && config.headers) {
@@ -24,9 +29,8 @@ apiClient.interceptors.request.use(
     }
 
     // Add request timestamp
-    config.metadata = { startTime: Date.now() }
+    ;(config as CustomAxiosRequestConfig).metadata = { startTime: Date.now() }
 
-    console.log(`🚀 API Request: ${config.method?.toUpperCase()} ${config.url}`)
     return config
   },
   (error: AxiosError) => {
@@ -38,14 +42,12 @@ apiClient.interceptors.request.use(
 // Response interceptor
 apiClient.interceptors.response.use(
   (response: AxiosResponse) => {
-    const duration = Date.now() - (response.config.metadata?.startTime || 0)
-    console.log(
-      `✅ API Response: ${response.config.method?.toUpperCase()} ${response.config.url} (${duration}ms)`
-    )
     return response
   },
   async (error: AxiosError) => {
-    const duration = Date.now() - (error.config?.metadata?.startTime || 0)
+    const duration =
+      Date.now() -
+      ((error.config as CustomAxiosRequestConfig | undefined)?.metadata?.startTime || 0)
     console.error(
       `❌ API Error: ${error.config?.method?.toUpperCase()} ${error.config?.url} (${duration}ms)`,
       error
@@ -54,9 +56,10 @@ apiClient.interceptors.response.use(
     // Handle different error types
     if (error.response) {
       // Server responded with error status
+      const responseData = error.response.data as any
       const apiError: APIError = {
         code: error.response.status.toString(),
-        message: error.response.data?.message || error.message,
+        message: responseData?.message || error.message,
         details: error.response.data,
         timestamp: new Date(),
       }
@@ -85,7 +88,7 @@ apiClient.interceptors.response.use(
           apiError.message = '服务器内部错误，请稍后再试'
           break
         default:
-          apiError.message = error.response.data?.message || '请求失败'
+          apiError.message = responseData?.message || '请求失败'
       }
 
       return Promise.reject(apiError)
@@ -113,7 +116,7 @@ apiClient.interceptors.response.use(
 
 // Retry logic for failed requests
 const retryRequest = async (
-  config: AxiosRequestConfig,
+  config: CustomAxiosRequestConfig,
   maxRetries: number = 3,
   delay: number = 1000
 ): Promise<AxiosResponse> => {
@@ -140,7 +143,6 @@ const retryRequest = async (
 
       // Exponential backoff
       const waitTime = delay * Math.pow(2, i)
-      console.log(`🔄 Retrying request in ${waitTime}ms (attempt ${i + 1}/${maxRetries})`)
       await new Promise(resolve => setTimeout(resolve, waitTime))
     }
   }
@@ -150,20 +152,38 @@ const retryRequest = async (
 
 // Enhanced request methods with retry
 export const apiRequest = {
-  get: <T = any>(url: string, config?: AxiosRequestConfig): Promise<T> =>
-    retryRequest({ ...config, method: 'GET', url }).then(response => response.data),
+  get: <T = any>(url: string, config?: Partial<CustomAxiosRequestConfig>): Promise<T> =>
+    retryRequest({ ...config, method: 'GET', url } as CustomAxiosRequestConfig).then(
+      response => response.data
+    ),
 
-  post: <T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> =>
-    retryRequest({ ...config, method: 'POST', url, data }).then(response => response.data),
+  post: <T = any>(
+    url: string,
+    data?: any,
+    config?: Partial<CustomAxiosRequestConfig>
+  ): Promise<T> =>
+    retryRequest({ ...config, method: 'POST', url, data } as CustomAxiosRequestConfig).then(
+      response => response.data
+    ),
 
-  put: <T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> =>
-    retryRequest({ ...config, method: 'PUT', url, data }).then(response => response.data),
+  put: <T = any>(url: string, data?: any, config?: Partial<CustomAxiosRequestConfig>): Promise<T> =>
+    retryRequest({ ...config, method: 'PUT', url, data } as CustomAxiosRequestConfig).then(
+      response => response.data
+    ),
 
-  patch: <T = any>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T> =>
-    retryRequest({ ...config, method: 'PATCH', url, data }).then(response => response.data),
+  patch: <T = any>(
+    url: string,
+    data?: any,
+    config?: Partial<CustomAxiosRequestConfig>
+  ): Promise<T> =>
+    retryRequest({ ...config, method: 'PATCH', url, data } as CustomAxiosRequestConfig).then(
+      response => response.data
+    ),
 
-  delete: <T = any>(url: string, config?: AxiosRequestConfig): Promise<T> =>
-    retryRequest({ ...config, method: 'DELETE', url }).then(response => response.data),
+  delete: <T = any>(url: string, config?: Partial<CustomAxiosRequestConfig>): Promise<T> =>
+    retryRequest({ ...config, method: 'DELETE', url } as CustomAxiosRequestConfig).then(
+      response => response.data
+    ),
 }
 
 // Health check function

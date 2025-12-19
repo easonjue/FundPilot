@@ -132,7 +132,13 @@ const AIRecommendationCard: React.FC<AIRecommendationCardProps> = ({
           <Progress
             percent={confidencePercent}
             size="small"
-            status={getConfidenceColor(prediction.confidence)}
+            status={
+              getConfidenceColor(prediction.confidence) as
+                | 'success'
+                | 'exception'
+                | 'normal'
+                | 'active'
+            }
             showInfo={false}
             strokeWidth={6}
             trailColor="rgba(0,0,0,0.06)"

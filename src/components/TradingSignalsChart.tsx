@@ -194,7 +194,7 @@ const TradingSignalsChart: React.FC<TradingSignalsChartProps> = ({
       },
       xAxis: {
         type: 'category',
-        data: dates,
+        data: dates.map(d => d.toString()),
         axisLabel: {
           formatter: (value: string) => {
             return new Date(value).toLocaleDateString('zh-CN', {

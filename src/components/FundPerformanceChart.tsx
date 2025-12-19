@@ -56,8 +56,8 @@ const FundPerformanceChart: React.FC<FundPerformanceChartProps> = ({
 
       return {
         name: fund?.name || fundCode,
-        type: 'line',
-        data: data.map(point => [point.date, point.value]),
+        type: 'line' as const,
+        data: data.map(point => [new Date(point.date).getTime(), point.value]),
         smooth: true,
         symbol: 'none',
         lineStyle: {
@@ -120,7 +120,6 @@ const FundPerformanceChart: React.FC<FundPerformanceChartProps> = ({
       },
       xAxis: {
         type: 'time',
-        boundaryGap: false,
         axisLine: {
           lineStyle: {
             color: '#d9d9d9',
